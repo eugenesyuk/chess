@@ -1,0 +1,37 @@
+@import 'scss/variables';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.chess-game {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+    .board {
+      width: calc(#{$chess-cell-size} * 8);
+      height: calc(#{$chess-cell-size} * 8);
+      display: flex;
+      flex-wrap: wrap; 
+    }
+
+    .cell {
+      width: $chess-cell-size;
+      height: $chess-cell-size;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.black {
+          background-color: $chess-cell-black-color;
+      }
+
+      &.white {
+        background-color: $chess-cell-white-color;
+      }
+    }
+} 

@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import './App.scss'
+import BoardComponent from './components/BoardComponent';
+import { Board } from './core/Board';
 
 function App() {
+  const [board, setBoard] = useState(new Board())
+
+  useEffect(() => {
+    restart()
+  }, [])
+
+  const restart = () => {
+    const newBoard = new Board()
+    newBoard.initCells()
+    setBoard(newBoard)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="chess-game">
+      <BoardComponent board={board} setBoard={setBoard} />
     </div>
   );
 }
 
-export default App;
+export default App
