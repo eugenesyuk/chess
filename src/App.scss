@@ -16,7 +16,8 @@
       width: calc(#{$chess-cell-size} * 8);
       height: calc(#{$chess-cell-size} * 8);
       display: flex;
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
+      border: $chess-board-border;
     }
 
     .cell {
