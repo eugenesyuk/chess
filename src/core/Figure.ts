@@ -35,9 +35,8 @@ export class Figure {
 
   move(target: Cell) {
     if (this.canMove(target)) {
-      target.figure = this
       this.cell.figure = null
-      this.cell = target
+      target.setFigure(this)
     }
   }
 }

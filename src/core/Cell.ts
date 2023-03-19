@@ -20,4 +20,9 @@ export class Cell {
     this.color = color
     this.figure = figure
   }
+
+  setFigure(figure: Figure) {
+    this.figure = figure
+    this.figure.cell = this
+  }
 }
