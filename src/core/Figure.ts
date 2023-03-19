@@ -14,8 +14,23 @@ export class Figure {
     this.name = name
   }
 
-  canMove(cell: Cell) {
-    return true
+  canMove(target: Cell) {
+    let allow = true
+
+    if (target.figure) {
+      allow = this.isOwnFigure(target.figure) ? false : allow
+      allow = target.figure.is(FigureName.King) ? false : allow
+    }
+  
+    return allow
+  }
+
+  isOwnFigure(figure: Figure) {
+    return figure.color === this.color
+  }
+
+  is(name: FigureName) {
+    return this.name === name
   }
 
   move(target: Cell) {
