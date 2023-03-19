@@ -5,12 +5,80 @@
   padding: 0;
 }
 
+body {
+  font-family: 'Lato', sans-serif;
+}
+
 .chess-game {
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+
+    .frame {
+      padding: $chess-board-frame-thickness;
+      background: #e7e7e7;
+      border-radius: $chess-board-frame-border-radius;
+      position: relative;
+
+      .labels {
+        position: absolute;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    
+        > span {
+          flex-grow: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &.top {
+          left: 0;
+          right: 0;
+          top: 0;
+          height: $chess-board-frame-thickness;
+          padding: 0 $chess-board-frame-thickness;
+
+          > span {
+            transform: scale(-1);
+          }
+        }
+
+        &.right {
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: $chess-board-frame-thickness;
+          flex-direction: column;
+          padding: $chess-board-frame-thickness 0;
+
+          > span {
+            transform: scale(-1);
+          }
+        }
+
+        &.left {
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: $chess-board-frame-thickness;
+          flex-direction: column;
+          padding: $chess-board-frame-thickness 0;
+        }
+      
+        &.bottom {
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: $chess-board-frame-thickness;
+          padding: 0 $chess-board-frame-thickness;
+        }
+      }
+    }
 
     .board {
       width: calc(#{$chess-cell-size} * 8);
@@ -19,6 +87,7 @@
       flex-wrap: wrap;
       border: $chess-board-border;
       border-radius: $chess-board-border-radius;
+      overflow: hidden;
     }
 
     .cell {
@@ -27,22 +96,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-
-      &:nth-child(1) {
-        border-top-left-radius: $chess-board-border-radius;
-      }
-
-      &:nth-child(8) {
-        border-top-right-radius: $chess-board-border-radius;
-      }
-
-      &:nth-child(57) {
-        border-bottom-left-radius: $chess-board-border-radius;
-      }
-
-      &:nth-child(64) {
-        border-bottom-right-radius: $chess-board-border-radius;
-      }
 
       &.black {
           background-color: $chess-cell-black-color;

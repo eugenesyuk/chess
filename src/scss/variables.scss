@@ -1,8 +1,10 @@
-$chess-cell-size: 100px;
+$chess-cell-size: 5vw;
 $chess-cell-black-color: #4d80eb;
 $chess-cell-white-color: #c1c1c1;
 
 $chess-board-border: 2px solid #442d2e;
 $chess-figure-white-color: white;
 $chess-figure-black-color: black;
-$chess-board-border-radius: 15px;
+$chess-board-border-radius: 8px;
+$chess-board-frame-thickness: 30px;
+$chess-board-frame-border-radius: 15px;
