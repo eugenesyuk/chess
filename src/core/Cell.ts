@@ -6,7 +6,7 @@ export class Cell {
   board: Board;
   figure: Figure | null;
 
-  readonly x: number ;
+  readonly x: number;
   readonly y: number;
   readonly color: Color;
 

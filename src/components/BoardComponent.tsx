@@ -1,7 +1,8 @@
 import { Board } from "../core/Board";
-import { FC } from "react";
+import { FC, useState } from "react";
 import React from "react";
 import { CellComponent } from ".";
+import { Cell } from '../core/Cell';
 
 interface BoardProps {
   board: Board;
@@ -9,6 +10,18 @@ interface BoardProps {
 }
 
 export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
+  const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
+
+  const isSelected = (cell: Cell): boolean => {
+    return cell.x === selectedCell?.x && cell.y === selectedCell?.y
+  }
+
+  const onCellClicked = (cell: Cell) => {
+    if (cell.figure) {
+      setSelectedCell(cell)
+    }
+  }
+
   return (
     <div className="frame">
       <BoardLabels/>
@@ -17,7 +30,7 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
           {board.cells.map((row, index) => (
             <React.Fragment>
               {row.map((cell) => (
-                <CellComponent cell={cell} key={cell.id} />
+                <CellComponent cell={cell} key={cell.id} clickHandler={onCellClicked} isSelected={isSelected(cell)} />
               ))}
             </React.Fragment>
           ))}

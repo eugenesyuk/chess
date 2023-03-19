@@ -105,6 +105,10 @@ body {
         background-color: $chess-cell-white-color;
       }
 
+      &.selected {
+        background-color: $chess-cell-selected-color;
+      }
+
       .figure {
         width: $chess-cell-size * 0.65;
         height: $chess-cell-size * 0.65;
