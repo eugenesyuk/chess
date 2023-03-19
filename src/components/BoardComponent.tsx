@@ -1,14 +1,15 @@
-import CellComponent from "./CellComponent"
+
 import { Board } from '../core/Board'
 import { FC } from 'react'
 import React from "react"
+import { CellComponent } from '.'
 
 interface BoardProps {
   board: Board,
   setBoard: (board: Board) => void
 }
 
-const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
+export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
   return (
     <div className="board">
       <>
@@ -21,5 +22,3 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
     </div>
   )
 }
-
-export default BoardComponent

@@ -18,6 +18,7 @@
       display: flex;
       flex-wrap: wrap;
       border: $chess-board-border;
+      border-radius: $chess-board-border-radius;
     }
 
     .cell {
@@ -27,12 +28,46 @@
       justify-content: center;
       align-items: center;
 
+      &:nth-child(1) {
+        border-top-left-radius: $chess-board-border-radius;
+      }
+
+      &:nth-child(8) {
+        border-top-right-radius: $chess-board-border-radius;
+      }
+
+      &:nth-child(57) {
+        border-bottom-left-radius: $chess-board-border-radius;
+      }
+
+      &:nth-child(64) {
+        border-bottom-right-radius: $chess-board-border-radius;
+      }
+
       &.black {
           background-color: $chess-cell-black-color;
       }
 
       &.white {
         background-color: $chess-cell-white-color;
+      }
+
+      .figure {
+        width: $chess-cell-size * 0.65;
+        height: $chess-cell-size * 0.65;
+        position: relative;
+
+        &.black {
+          svg {
+            fill: $chess-figure-black-color;
+          }
+        }
+
+        &.white {
+          svg {
+            fill: $chess-figure-white-color;
+          }
+        }
       }
     }
 } 

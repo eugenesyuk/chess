@@ -1,14 +1,16 @@
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import { Cell } from "../core/Cell"
+import { classnames } from '../core/Utils'
+import { FigureComponent } from '.'
 
 interface CellProps {
   cell: Cell
 }
 
-const CellComponent: FC<CellProps> = ({cell}) => {
+export const CellComponent: FC<CellProps> = ({ cell }) => {
   return (
-    <div className={['cell', cell.color].join(' ')}></div>
+    <div className={classnames('cell', cell.color)}>
+      {cell.figure ? <FigureComponent figure={cell.figure} /> : <></>}
+    </div>
   )
 }
-
-export default CellComponent

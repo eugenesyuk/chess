@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.scss'
-import BoardComponent from './components/BoardComponent';
+import { BoardComponent } from './components';
 import { Board } from './core/Board';
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
   const restart = () => {
     const newBoard = new Board()
     newBoard.initCells()
+    newBoard.respawnFigures()
     setBoard(newBoard)
   }
 

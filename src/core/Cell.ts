@@ -1,5 +1,5 @@
 import { Board } from './Board';
-import { CellColor } from './CellColor';
+import { Color } from './Enums';
 import { Figure } from './Figure';
 
 export class Cell {
@@ -8,12 +8,12 @@ export class Cell {
 
   readonly x: number ;
   readonly y: number;
-  readonly color: CellColor;
+  readonly color: Color;
 
   available: boolean = false;
   id: number = Math.random();
 
-  constructor(board: Board, x: number, y: number, color: CellColor, figure: Figure | null) {
+  constructor(board: Board, x: number, y: number, color: Color, figure: Figure | null) {
     this.board = board;
     this.x = x;
     this.y = y;
