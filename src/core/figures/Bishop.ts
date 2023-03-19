@@ -6,4 +6,10 @@ export class Bishop extends Figure {
   constructor(color: Color, cell: Cell) {
     super(color, cell, FigureName.Bishop)
   }
+
+  canMove(target: Cell) {
+    let allow = true
+    allow = super.canMove(target) ? allow : false    
+    return allow
+  }
 }
