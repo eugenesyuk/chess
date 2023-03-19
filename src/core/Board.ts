@@ -55,13 +55,13 @@ export class Board {
   }
 
   private respawnKings() {
-    new King(Color.Black, this.cell(0, 3))
-    new King(Color.White, this.cell(7, 3))
+    new King(Color.Black, this.cell(0, 4))
+    new King(Color.White, this.cell(7, 4))
   }
 
   private respawnQueens() {
-    new Queen(Color.Black, this.cell(0, 4))
-    new Queen(Color.White, this.cell(7, 4))
+    new Queen(Color.Black, this.cell(0, 3))
+    new Queen(Color.White, this.cell(7, 3))
   }
 
   private respawnBishops() {
