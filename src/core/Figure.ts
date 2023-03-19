@@ -17,4 +17,12 @@ export class Figure {
   canMove(cell: Cell) {
     return true
   }
+
+  move(target: Cell) {
+    if (this.canMove(target)) {
+      target.figure = this
+      this.cell.figure = null
+      this.cell = target
+    }
+  }
 }

@@ -22,8 +22,11 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
   }
 
   const onCellClicked = (cell: Cell) => {
-    if (cell.figure) {
-      setSelectedCell(cell)
+    if (selectedCell && selectedCell !== cell && selectedCell?.figure?.canMove(cell)) {
+      selectedCell.figure.move(cell)
+      setSelectedCell(null)
+    } else {
+      cell.figure && setSelectedCell(cell)
     }
   }
 
@@ -43,7 +46,7 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
       <div className="board">
         <>
           {board.cells.map((row, index) => (
-            <React.Fragment>
+            <React.Fragment key={index}>
               {row.map((cell) => (
                 <CellComponent cell={cell} key={cell.id} clickHandler={onCellClicked} isSelected={isSelected(cell)} />
               ))}
