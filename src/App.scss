@@ -16,115 +16,127 @@ body {
   justify-content: center;
   align-items: center;
 
-    .frame {
-      padding: $chess-board-frame-thickness;
-      background: #e7e7e7;
-      border-radius: $chess-board-frame-border-radius;
-      position: relative;
+  .frame {
+    padding: $chess-board-frame-thickness;
+    background: #e7e7e7;
+    border-radius: $chess-board-frame-border-radius;
+    position: relative;
 
-      .labels {
-        position: absolute;
+    .labels {
+      position: absolute;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+
+      > span {
+        flex-grow: 1;
         display: flex;
-        text-align: center;
         align-items: center;
         justify-content: center;
-    
+      }
+
+      &.top {
+        left: 0;
+        right: 0;
+        top: 0;
+        height: $chess-board-frame-thickness;
+        padding: 0 $chess-board-frame-thickness;
+
         > span {
-          flex-grow: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        &.top {
-          left: 0;
-          right: 0;
-          top: 0;
-          height: $chess-board-frame-thickness;
-          padding: 0 $chess-board-frame-thickness;
-
-          > span {
-            transform: scale(-1);
-          }
-        }
-
-        &.right {
-          right: 0;
-          top: 0;
-          bottom: 0;
-          width: $chess-board-frame-thickness;
-          flex-direction: column;
-          padding: $chess-board-frame-thickness 0;
-
-          > span {
-            transform: scale(-1);
-          }
-        }
-
-        &.left {
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: $chess-board-frame-thickness;
-          flex-direction: column;
-          padding: $chess-board-frame-thickness 0;
-        }
-      
-        &.bottom {
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: $chess-board-frame-thickness;
-          padding: 0 $chess-board-frame-thickness;
+          transform: scale(-1);
         }
       }
+
+      &.right {
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: $chess-board-frame-thickness;
+        flex-direction: column;
+        padding: $chess-board-frame-thickness 0;
+
+        > span {
+          transform: scale(-1);
+        }
+      }
+
+      &.left {
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: $chess-board-frame-thickness;
+        flex-direction: column;
+        padding: $chess-board-frame-thickness 0;
+      }
+
+      &.bottom {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: $chess-board-frame-thickness;
+        padding: 0 $chess-board-frame-thickness;
+      }
+    }
+  }
+
+  .board {
+    width: calc(#{$chess-cell-size} * 8);
+    height: calc(#{$chess-cell-size} * 8);
+    display: flex;
+    flex-wrap: wrap;
+    border: $chess-board-border;
+    border-radius: $chess-board-border-radius;
+    overflow: hidden;
+  }
+
+  .cell {
+    width: $chess-cell-size;
+    height: $chess-cell-size;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.black {
+      background-color: $chess-cell-black-color;
     }
 
-    .board {
-      width: calc(#{$chess-cell-size} * 8);
-      height: calc(#{$chess-cell-size} * 8);
-      display: flex;
-      flex-wrap: wrap;
-      border: $chess-board-border;
-      border-radius: $chess-board-border-radius;
-      overflow: hidden;
+    &.white {
+      background-color: $chess-cell-white-color;
     }
 
-    .cell {
-      width: $chess-cell-size;
-      height: $chess-cell-size;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    &.available {
+      background-color: #53a941;
+      box-shadow: inset 0 0 1px black;
+    }
+
+    &.selected {
+      background-color: $chess-cell-selected-color;
+    }
+  
+    .available-point {
+      width: 10%;
+      height: 10%;
+      border-radius: 50%;
+      background-color: $chess-cell-available-color;
+    }
+
+    .figure {
+      width: $chess-cell-size * 0.65;
+      height: $chess-cell-size * 0.65;
+      position: relative;
 
       &.black {
-          background-color: $chess-cell-black-color;
+        svg {
+          fill: $chess-figure-black-color;
+        }
       }
 
       &.white {
-        background-color: $chess-cell-white-color;
-      }
-
-      &.selected {
-        background-color: $chess-cell-selected-color;
-      }
-
-      .figure {
-        width: $chess-cell-size * 0.65;
-        height: $chess-cell-size * 0.65;
-        position: relative;
-
-        &.black {
-          svg {
-            fill: $chess-figure-black-color;
-          }
-        }
-
-        &.white {
-          svg {
-            fill: $chess-figure-white-color;
-          }
+        svg {
+          fill: $chess-figure-white-color;
         }
       }
     }
-} 
+  }
+}

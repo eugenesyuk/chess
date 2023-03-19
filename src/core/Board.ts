@@ -1,11 +1,11 @@
 import { Cell } from './Cell'
-import { Color } from './Enums';
-import { Bishop } from './figures/Bishop';
-import { King } from './figures/King';
-import { Knight } from './figures/Knight';
-import { Pawn } from './figures/Pawn';
-import { Queen } from './figures/Queen';
-import { Rook } from './figures/Rook';
+import { Color } from './Enums'
+import { Bishop } from './figures/Bishop'
+import { King } from './figures/King'
+import { Knight } from './figures/Knight'
+import { Pawn } from './figures/Pawn'
+import { Queen } from './figures/Queen'
+import { Rook } from './figures/Rook'
 
 export class Board {
   cells: Cell[][] = []
@@ -26,6 +26,23 @@ export class Board {
 
   private cell(y: number, x: number) {
     return this.cells[y][x]
+  }
+
+  public highlightCells(selectedCell: Cell | null) {
+    for (let y = 0; y < this.cells.length; y++) {
+      const row = this.cells[y]
+
+      for (let x = 0; x < row.length; x++) {
+        const target = row[x]
+        target.isAvailable = !!selectedCell?.figure?.canMove(target)
+      }
+    }
+  }
+
+  getCopyBoard(): Board {
+    const board = new Board()
+    board.cells = this.cells
+    return board
   }
 
   public respawnFigures() {

@@ -13,4 +13,8 @@ export class Figure {
     this.cell.figure = this
     this.name = name
   }
+
+  canMove(cell: Cell) {
+    return true
+  }
 }
