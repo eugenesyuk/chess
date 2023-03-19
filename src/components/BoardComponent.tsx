@@ -21,13 +21,17 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
     return cell.x === selectedCell?.x && cell.y === selectedCell?.y
   }
 
-  const onCellClicked = (cell: Cell) => {
-    if (selectedCell && selectedCell !== cell && selectedCell?.figure?.canMove(cell)) {
-      selectedCell.figure.move(cell)
+  const onCellClicked = (clickedCell: Cell) => {
+    if (selectedCell) {
+      isMoveAllowed(clickedCell) && selectedCell?.figure && selectedCell.figure.move(clickedCell)
       setSelectedCell(null)
     } else {
-      cell.figure && setSelectedCell(cell)
+      clickedCell.figure && setSelectedCell(clickedCell)
     }
+  }
+
+  const isMoveAllowed = (target: Cell) => {
+    return selectedCell !== target && selectedCell?.figure?.canMove(target)
   }
 
   const highlightCells = () => {
