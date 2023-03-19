@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC } from "react"
 import { Cell } from "../core/Cell"
 import { classnames } from '../core/Utils'
 import { FigureComponent } from '.'
