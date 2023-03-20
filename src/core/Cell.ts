@@ -74,11 +74,4 @@ export class Cell {
 
     return true
   }
-
-  isKnightMoveAllowed(target: Cell): boolean {
-    const diffX = Math.abs(this.x - target.x)
-    const diffY = Math.abs(this.y - target.y)
-
-    return (diffX === 1 && diffY === 2) || (diffX === 2 && diffY === 1)
-  }
 }

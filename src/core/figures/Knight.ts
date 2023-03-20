@@ -10,7 +10,14 @@ export class Knight extends Figure {
   canMove(target: Cell) {
     let allow = true
     allow = super.canMove(target) ? allow : false
-    allow = this.cell.isKnightMoveAllowed(target) ? allow : false
+    allow = this.isKnightMoveAllowed(target) ? allow : false
     return allow
+  }
+
+  isKnightMoveAllowed(target: Cell): boolean {
+    const diffX = Math.abs(this.cell.x - target.x)
+    const diffY = Math.abs(this.cell.y - target.y)
+
+    return (diffX === 1 && diffY === 2) || (diffX === 2 && diffY === 1)
   }
 }
