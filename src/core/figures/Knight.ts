@@ -9,7 +9,8 @@ export class Knight extends Figure {
 
   canMove(target: Cell) {
     let allow = true
-    allow = super.canMove(target) ? allow : false    
+    allow = super.canMove(target) ? allow : false
+    allow = this.cell.isKnightMoveAllowed(target) ? allow : false
     return allow
   }
 }
