@@ -66,8 +66,8 @@ export class Cell {
     if (stepsX !== stepsY) return false
 
     for (let i = 1; i < stepsY; i++) {
-      const nextX = target.x + (diffX / stepsX)
-      const nextY = target.y + (diffY / stepsY)
+      const nextX = target.x + (diffX / stepsX) * i
+      const nextY = target.y + (diffY / stepsY) * i
 
       if(this.board.cell(nextY, nextX).hasFigure) return false
     }
