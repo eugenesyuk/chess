@@ -24,7 +24,7 @@ export class Board {
     }
   }
 
-  private cell(y: number, x: number) {
+  public cell(y: number, x: number) {
     return this.cells[y][x]
   }
 
