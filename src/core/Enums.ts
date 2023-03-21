@@ -11,3 +11,8 @@ export enum FigureName {
   Rook = 'rook',
   Pawn = 'pawn'
 }
+
+export enum MoveDirection {
+  Up = -1,
+  Down = 1
+}

@@ -39,4 +39,8 @@ export class Figure {
       target.setFigure(this)
     }
   }
+
+  isEnemyTo(target: Figure): boolean {
+    return this.color !== target.color
+  }
 }

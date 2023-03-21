@@ -74,4 +74,8 @@ export class Cell {
 
     return true
   }
+
+  hasEnemyFigure(target: Cell): boolean {
+    return target.figure != null && this.figure != null && target.figure.isEnemyTo(this.figure)
+  }
 }
