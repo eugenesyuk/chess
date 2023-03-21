@@ -24,10 +24,10 @@ export class Pawn extends Figure {
   }
 
   isPawmMoveAllowed(target: Cell): boolean {
-    return this.isForwardMove(target) || this.isDiagonalEnemy(target)
+    return this.isEmptyForwardCell(target) || this.isDiagonalEnemy(target)
   }
 
-  isForwardMove(target: Cell) {
+  isEmptyForwardCell(target: Cell) {
     return this.isVerticalMove(target) && this.isOneOrTwoCellsMoveTarget(target) && !target.hasFigure
   }
 
