@@ -1,15 +1,53 @@
-import { Color, FigureName } from '../Enums';
-import { Figure } from '../Figure';
-import { Cell } from '../Cell';
+import { Color, FigureName } from "../Enums";
+import { Figure } from "../Figure";
+import { Cell } from "../Cell";
 
 export class King extends Figure {
+  closePositions: Array<number[]> = [];
+
   constructor(color: Color, cell: Cell) {
-    super(color, cell, FigureName.King)
+    super(color, cell, FigureName.King);
+    this.setClosePositions();
   }
 
   canMove(target: Cell) {
-    let allow = true
-    allow = super.canMove(target) ? allow : false    
-    return allow
+    let allow = true;
+    allow = super.canMove(target) ? allow : false;
+    allow = this.isKingMoveAllowed(target) ? allow : false;
+    return allow;
+  }
+
+  canPotentiallyAttack(target: Cell): boolean {
+    return this.isClosePosition(target)
+  }
+
+  move(target: Cell): void {
+    super.move(target);
+    this.setClosePositions();
+  }
+
+  setClosePositions() {
+    const x = this.cell.x;
+    const y = this.cell.y;
+    this.closePositions = [
+      [y, x - 1],
+      [y, x + 1],
+      [y - 1, x],
+      [y + 1, x],
+      [y + 1, x - 1],
+      [y + 1, x + 1],
+      [y - 1, x - 1],
+      [y - 1, x + 1],
+    ]
+  }
+
+  isKingMoveAllowed(target: Cell) {
+    return this.isClosePosition(target) && !this.isPotentiallyUnderAttackAt(target)
+  }
+
+  isClosePosition(target: Cell) {
+    return this.closePositions.some(
+      (position) => position[0] === target.y && position[1] === target.x
+    )
   }
 }

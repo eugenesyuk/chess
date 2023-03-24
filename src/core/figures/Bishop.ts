@@ -13,4 +13,8 @@ export class Bishop extends Figure {
     allow = this.cell.isDiagonalPathFree(target) ? allow : false
     return allow
   }
+
+  canPotentiallyAttack(target: Cell): boolean {
+    return this.cell.isDiagonalPathFree(target)
+  }
 }

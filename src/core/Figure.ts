@@ -5,16 +5,18 @@ export class Figure {
   color: Color
   cell: Cell
   name: FigureName
-  id: number = Math.random()
+  id: number
+  captured: boolean = false
 
   constructor(color: Color, cell: Cell, name: FigureName) {
     this.color = color
     this.cell = cell
     this.cell.figure = this
     this.name = name
+    this.id = this.cell.board.getFigureId()
   }
 
-  canMove(target: Cell) {
+  canMove(target: Cell): boolean {
     let allow = true
 
     if (target.figure) {
@@ -24,6 +26,8 @@ export class Figure {
   
     return allow
   }
+
+  canPotentiallyAttack(target: Cell){}
 
   isOwnFigure(figure: Figure) {
     return figure.color === this.color
@@ -35,12 +39,21 @@ export class Figure {
 
   move(target: Cell) {
     if (this.canMove(target)) {
-      this.cell.figure = null
-      target.setFigure(this)
+      this.cell.moveFigure(target)
     }
+  }
+
+  capture() {
+    this.captured = true
   }
 
   isEnemyTo(target: Figure): boolean {
     return this.color !== target.color
+  }
+
+  isPotentiallyUnderAttackAt(target: Cell) {
+    const board = this.cell.board
+    const activeEnemyFigures = board.getActiveEnemyFigures(this)
+    return activeEnemyFigures.some(figure => figure.canPotentiallyAttack(target))
   }
 }

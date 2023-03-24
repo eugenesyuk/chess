@@ -14,6 +14,10 @@ export class Knight extends Figure {
     return allow
   }
 
+  canPotentiallyAttack(target: Cell): boolean {
+    return this.isKnightMoveAllowed(target)
+  }
+
   isKnightMoveAllowed(target: Cell): boolean {
     const diffX = Math.abs(this.cell.x - target.x)
     const diffY = Math.abs(this.cell.y - target.y)

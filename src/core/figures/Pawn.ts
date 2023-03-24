@@ -18,6 +18,10 @@ export class Pawn extends Figure {
     return allow
   }
 
+  canPotentiallyAttack(target: Cell) {
+    return this.isOneCellForward(target) && this.isDiagonal(target)
+  }
+
   move(target: Cell): void {
     super.move(target)
     this.isFirstMove = false
@@ -32,10 +36,10 @@ export class Pawn extends Figure {
   }
 
   isOneOrTwoCellsMoveTarget(target: Cell): boolean {
-    return this.isOneCellAway(target) || this.isTwoCellsAwayOnFirstMove(target)
+    return this.isOneCellForward(target) || this.isTwoCellsAwayOnFirstMove(target)
   }
 
-  isOneCellAway(target: Cell) {
+  isOneCellForward(target: Cell) {
     return target.y === this.cell.y + 1 * this.moveDirection 
   }
 
@@ -48,7 +52,7 @@ export class Pawn extends Figure {
   }
 
   isDiagonalEnemy(target: Cell) {
-    return this.isOneCellAway(target) && this.isDiagonal(target) && target.hasEnemyFigure(this.cell)
+    return this.isOneCellForward(target) && this.isDiagonal(target) && target.hasEnemyFigure(this.cell)
   }
 
   isDiagonal(target: Cell) {

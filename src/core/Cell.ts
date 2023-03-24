@@ -11,23 +11,28 @@ export class Cell {
   readonly color: Color
 
   isAvailable: boolean = false
-  id: number = Math.random()
+  id: number
 
-  constructor(board: Board, x: number, y: number, color: Color, figure: Figure | null) {
+  constructor(id: number, board: Board, x: number, y: number, color: Color, figure: Figure | null) {
     this.board = board
     this.x = x
     this.y = y
     this.color = color
     this.figure = figure
+    this.id = id
   }
 
   get hasFigure(): boolean {
     return this.figure !== null
   }
 
-  setFigure(figure: Figure) {
-    this.figure = figure
-    this.figure.cell = this
+  moveFigure(target: Cell) {
+    if (this.figure) {
+      target.hasEnemyFigure(this) && target.figure?.capture()
+      this.figure.cell = target
+      target.figure = this.figure
+      this.figure = null
+    }
   }
 
   isVerticalPathFree(target: Cell): boolean {
