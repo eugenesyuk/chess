@@ -18,7 +18,9 @@ body {
 
   .frame {
     padding: $chess-board-frame-thickness;
-    background: #e7e7e7;
+    background: $chess-board-frame-background;
+    color: $chess-board-frame-font-color;
+    font-size: $chess-board-frame-font-size;
     border-radius: $chess-board-frame-border-radius;
     position: relative;
 
@@ -106,17 +108,29 @@ body {
     }
 
     &.available {
-      background-color: #53a941;
+      background-color: $chess-cell-available-figure-color;
       box-shadow: inset 0 0 1px black;
+
+      .figure.white {
+        svg {
+          stroke-width: 0;
+        }
+      }
     }
 
     &.selected {
       background-color: $chess-cell-selected-color;
+
+      .figure.white {
+        svg {
+          stroke-width: 0;
+        }
+      }
     }
   
     .available-point {
-      width: 10%;
-      height: 10%;
+      width: 30%;
+      height: 30%;
       border-radius: 50%;
       background-color: $chess-cell-available-color;
     }
@@ -135,6 +149,8 @@ body {
       &.white {
         svg {
           fill: $chess-figure-white-color;
+          stroke: $chess-figure-black-color;
+          stroke-width: 5px;
         }
       }
     }

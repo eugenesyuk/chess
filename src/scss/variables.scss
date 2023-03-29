@@ -1,12 +1,16 @@
 $chess-cell-size: 5vw;
-$chess-cell-black-color: #4d80eb;
-$chess-cell-white-color: #c1c1c1;
+$chess-cell-black-color: #7d8697;
+$chess-cell-white-color: #e5e8ed;
 $chess-cell-selected-color: #d73bdd;
-$chess-cell-available-color: white;
+$chess-cell-available-color: rgba(0,0,0, 0.15);
+$chess-cell-available-figure-color: #ff6a57;
 
-$chess-board-border: 2px solid #442d2e;
+$chess-board-border: 0;
 $chess-figure-white-color: white;
-$chess-figure-black-color: black;
+$chess-figure-black-color: #191a1e;
 $chess-board-border-radius: 8px;
-$chess-board-frame-thickness: 30px;
+$chess-board-frame-thickness: 20px;
+$chess-board-frame-background: #2d2d2d;
+$chess-board-frame-font-color: #e5e8ed;
+$chess-board-frame-font-size: .8rem;
 $chess-board-frame-border-radius: 15px;
