@@ -1,10 +1,10 @@
 import { Board } from './Board';
 import { Color } from './Enums';
-import { Figure } from './Figure';
+import { Piece } from './Piece';
 
 export class Cell {
   board: Board
-  figure: Figure | null
+  piece: Piece | null
 
   readonly x: number
   readonly y: number
@@ -13,25 +13,25 @@ export class Cell {
   isAvailable: boolean = false
   id: number
 
-  constructor(id: number, board: Board, x: number, y: number, color: Color, figure: Figure | null) {
+  constructor(id: number, board: Board, x: number, y: number, color: Color, piece: Piece | null) {
     this.board = board
     this.x = x
     this.y = y
     this.color = color
-    this.figure = figure
+    this.piece = piece
     this.id = id
   }
 
-  get hasFigure(): boolean {
-    return this.figure !== null
+  get hasPiece(): boolean {
+    return this.piece !== null
   }
 
-  moveFigure(target: Cell) {
-    if (this.figure) {
-      target.hasEnemyFigure(this) && target.figure?.capture()
-      this.figure.cell = target
-      target.figure = this.figure
-      this.figure = null
+  movePiece(target: Cell) {
+    if (this.piece) {
+      target.hasEnemyPiece(this) && target.piece?.capture()
+      this.piece.cell = target
+      target.piece = this.piece
+      this.piece = null
     }
   }
 
@@ -42,7 +42,7 @@ export class Cell {
     const max = Math.max(this.y, target.y)
 
     for (let i = min + 1; i < max; i++) {
-      if(this.board.cell(i, this.x).hasFigure) return false
+      if(this.board.cell(i, this.x).hasPiece) return false
     }
 
     return true
@@ -55,7 +55,7 @@ export class Cell {
     const max = Math.max(this.x, target.x)
 
     for (let x = min + 1; x < max; x++) {
-      if(this.board.cell(this.y, x).hasFigure) return false
+      if(this.board.cell(this.y, x).hasPiece) return false
     }
 
     return true
@@ -74,13 +74,13 @@ export class Cell {
       const nextX = target.x + (diffX / stepsX) * i
       const nextY = target.y + (diffY / stepsY) * i
 
-      if(this.board.cell(nextY, nextX).hasFigure) return false
+      if(this.board.cell(nextY, nextX).hasPiece) return false
     }
 
     return true
   }
 
-  hasEnemyFigure(target: Cell): boolean {
-    return target.figure != null && this.figure != null && target.figure.isEnemyTo(this.figure)
+  hasEnemyPiece(target: Cell): boolean {
+    return target.piece != null && this.piece != null && target.piece.isEnemyTo(this.piece)
   }
 }

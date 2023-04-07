@@ -1,13 +1,13 @@
-import { Color, FigureName, MoveDirection } from '../Enums';
-import { Figure } from '../Figure';
+import { Color, PieceType, MoveDirection } from '../Enums';
+import { Piece } from '../Piece';
 import { Cell } from '../Cell';
 
-export class Pawn extends Figure {
+export class Pawn extends Piece {
   isFirstMove: boolean = true
   moveDirection: MoveDirection
 
   constructor(color: Color, cell: Cell) {
-    super(color, cell, FigureName.Pawn)
+    super(color, cell, PieceType.Pawn)
     this.moveDirection = color === Color.Black ? MoveDirection.Down : MoveDirection.Up
   }
 
@@ -32,7 +32,7 @@ export class Pawn extends Figure {
   }
 
   isEmptyForwardCell(target: Cell) {
-    return this.isVerticalMove(target) && this.isOneOrTwoCellsMoveTarget(target) && !target.hasFigure
+    return this.isVerticalMove(target) && this.isOneOrTwoCellsMoveTarget(target) && !target.hasPiece
   }
 
   isOneOrTwoCellsMoveTarget(target: Cell): boolean {
@@ -52,7 +52,7 @@ export class Pawn extends Figure {
   }
 
   isDiagonalEnemy(target: Cell) {
-    return this.isOneCellForward(target) && this.isDiagonal(target) && target.hasEnemyFigure(this.cell)
+    return this.isOneCellForward(target) && this.isDiagonal(target) && target.hasEnemyPiece(this.cell)
   }
 
   isDiagonal(target: Cell) {

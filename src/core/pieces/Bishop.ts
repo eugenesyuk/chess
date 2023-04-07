@@ -1,10 +1,10 @@
-import { Color, FigureName } from '../Enums';
-import { Figure } from '../Figure';
+import { Color, PieceType } from '../Enums';
+import { Piece } from '../Piece';
 import { Cell } from '../Cell';
 
-export class Bishop extends Figure {
+export class Bishop extends Piece {
   constructor(color: Color, cell: Cell) {
-    super(color, cell, FigureName.Bishop)
+    super(color, cell, PieceType.Bishop)
   }
 
   canMove(target: Cell) {

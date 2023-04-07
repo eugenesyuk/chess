@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Cell } from '../core/Cell'
 import { classnames } from '../core/Utils'
-import { FigureComponent } from '.'
+import { PieceComponent } from '.'
 
 interface CellProps {
   cell: Cell
@@ -13,9 +13,9 @@ export const CellComponent: FC<CellProps> = ({ cell, isSelected, clickHandler })
   return (
     <div
       onClick={() => clickHandler(cell)}
-      className={classnames('cell', cell.color, isSelected ? 'selected' : '', cell.isAvailable && cell.figure ? 'available' : '')}>
-      {cell.isAvailable && !cell.figure && <div className="available-point"></div>}
-      {cell.figure ? <FigureComponent figure={cell.figure} /> : <></>}
+      className={classnames('cell', cell.color, isSelected ? 'selected' : '', cell.isAvailable && cell.piece ? 'available' : '')}>
+      {cell.isAvailable && !cell.piece && <div className="available-point"></div>}
+      {cell.piece ? <PieceComponent piece={cell.piece} /> : <></>}
     </div>
   )
 }

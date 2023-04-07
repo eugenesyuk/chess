@@ -3,7 +3,7 @@ export enum Color {
   Black = 'black'
 }
 
-export enum FigureName {
+export enum PieceType {
   King = 'king',
   Queen = 'queen',
   Bishop = 'bishop',

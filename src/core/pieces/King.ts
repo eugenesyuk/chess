@@ -1,12 +1,12 @@
-import { Color, FigureName } from "../Enums";
-import { Figure } from "../Figure";
+import { Color, PieceType } from "../Enums";
+import { Piece } from "../Piece";
 import { Cell } from "../Cell";
 
-export class King extends Figure {
+export class King extends Piece {
   closePositions: Array<number[]> = [];
 
   constructor(color: Color, cell: Cell) {
-    super(color, cell, FigureName.King);
+    super(color, cell, PieceType.King);
     this.setClosePositions();
   }
 
