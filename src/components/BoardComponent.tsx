@@ -23,12 +23,12 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
   }
 
   const onCellClicked = (clickedCell: Cell) => {
-    if (selectedCell) {
-      isMoveAllowed(clickedCell) && selectedCell?.piece && selectedCell.piece.move(clickedCell)
-      setSelectedCell(null)
-    } else {
-      clickedCell.piece && setSelectedCell(clickedCell)
+    if (selectedCell?.piece && isMoveAllowed(clickedCell)) {
+        selectedCell.piece.move(clickedCell)
+        return setSelectedCell(null)
     }
+  
+    clickedCell.hasPiece ? setSelectedCell(clickedCell) : setSelectedCell(null)
   }
 
   const isMoveAllowed = (target: Cell) => {
