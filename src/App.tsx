@@ -18,7 +18,7 @@ function App() {
   }
 
   return (
-    <div className="chess-game">
+    <div className="chess">
       <BoardComponent board={board} setBoard={setBoard} />
     </div>
   );

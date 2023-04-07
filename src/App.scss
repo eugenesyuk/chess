@@ -7,9 +7,10 @@
 
 body {
   font-family: 'Lato', sans-serif;
+  background-color: $body--background-color;
 }
 
-.chess-game {
+.chess {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -17,11 +18,12 @@ body {
   align-items: center;
 
   .frame {
-    padding: $chess-board-frame-thickness;
-    background: $chess-board-frame-background;
-    color: $chess-board-frame-font-color;
-    font-size: $chess-board-frame-font-size;
-    border-radius: $chess-board-frame-border-radius;
+    padding: $frame-thickness;
+    background: $frame-background;
+    color: $frame-font-color;
+    font-size: $frame-font-size;
+    border-radius: $frame-border-radius;
+    border: $frame-border;
     position: relative;
 
     .labels {
@@ -42,8 +44,8 @@ body {
         left: 0;
         right: 0;
         top: 0;
-        height: $chess-board-frame-thickness;
-        padding: 0 $chess-board-frame-thickness;
+        height: $frame-thickness;
+        padding: 0 $frame-thickness;
 
         > span {
           transform: scale(-1);
@@ -54,9 +56,9 @@ body {
         right: 0;
         top: 0;
         bottom: 0;
-        width: $chess-board-frame-thickness;
+        width: $frame-thickness;
         flex-direction: column;
-        padding: $chess-board-frame-thickness 0;
+        padding: $frame-thickness 0;
 
         > span {
           transform: scale(-1);
@@ -67,83 +69,77 @@ body {
         left: 0;
         top: 0;
         bottom: 0;
-        width: $chess-board-frame-thickness;
+        width: $frame-thickness;
         flex-direction: column;
-        padding: $chess-board-frame-thickness 0;
+        padding: $frame-thickness 0;
       }
 
       &.bottom {
         left: 0;
         right: 0;
         bottom: 0;
-        height: $chess-board-frame-thickness;
-        padding: 0 $chess-board-frame-thickness;
+        height: $frame-thickness;
+        padding: 0 $frame-thickness;
       }
     }
   }
 
   .board {
-    width: calc(#{$chess-cell-size} * 8);
-    height: calc(#{$chess-cell-size} * 8);
+    width: calc(#{$cell-size} * 8);
+    height: calc(#{$cell-size} * 8);
     display: flex;
     flex-wrap: wrap;
-    border: $chess-board-border;
-    border-radius: $chess-board-border-radius;
+    border: $chessboard--border;
+    border-radius: $chessboard--border-radius;
     overflow: hidden;
   }
 
   .cell {
-    width: $chess-cell-size;
-    height: $chess-cell-size;
+    width: $cell-size;
+    height: $cell-size;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &.black {
-      background-color: $chess-cell-black-color;
+      background-color: $cell-black--background-color;
     }
 
     &.white {
-      background-color: $chess-cell-white-color;
+      background-color: $cell-white--background-color;
     }
 
     &.available {
-      background-color: $chess-cell-available-piece-color;
+      background-color: $cell-available-piece--background-color;
       box-shadow: inset 0 0 1px black;
-
-      .piece.white {
-        svg {
-          stroke-width: 0;
-        }
-      }
     }
 
     &.selected {
-      background-color: $chess-cell-selected-color;
+      background-color: $cell-selected--background-color;
     }
   
     .available-point {
       width: 30%;
       height: 30%;
       border-radius: 50%;
-      background-color: $chess-cell-available-color;
+      background-color: $cell-available--background-color;
     }
 
     .piece {
-      width: $chess-cell-size * 0.65;
-      height: $chess-cell-size * 0.65;
+      width: $cell-size * 0.65;
+      height: $cell-size * 0.65;
       position: relative;
 
       &.black {
         svg {
-          fill: $chess-piece-black-color;
+          fill: $piece-black--background-color;
         }
       }
 
       &.white {
         svg {
-          fill: $chess-piece-white-color;
-          stroke: $chess-piece-black-color;
+          fill: $piece-white--background-color;
+          stroke: $piece-black--background-color;
           stroke-width: 15px;
         }
       }

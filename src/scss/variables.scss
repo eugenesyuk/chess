@@ -1,16 +1,20 @@
-$chess-cell-size: 5vw;
-$chess-cell-black-color: #7d8697;
-$chess-cell-white-color: #e5e8ed;
-$chess-cell-selected-color: #d73bdd;
-$chess-cell-available-color: rgba(0,0,0, 0.15);
-$chess-cell-available-piece-color: #ff6a57;
+$body--background-color: #202a35;
 
-$chess-board-border: 0;
-$chess-piece-white-color: white;
-$chess-piece-black-color: #191a1e;
-$chess-board-border-radius: 8px;
-$chess-board-frame-thickness: 20px;
-$chess-board-frame-background: #2d2d2d;
-$chess-board-frame-font-color: #e5e8ed;
-$chess-board-frame-font-size: .8rem;
-$chess-board-frame-border-radius: 15px;
+$cell-size: 5vw;
+$cell-black--background-color: #7d8697;
+$cell-white--background-color: #e5e8ed;
+$cell-selected--background-color: #83c3ff;
+$cell-available--background-color: rgba(0,0,0, 0.15);
+$cell-available-piece--background-color: #ffc083;
+
+$chessboard--border: 0;
+$chessboard--border-radius: 8px;
+$piece-white--background-color: white;
+$piece-black--background-color: #191a1e;
+
+$frame-thickness: 20px;
+$frame-background: #2d3640;
+$frame-font-color: #e5e8ed;
+$frame-font-size: .8rem;
+$frame-border-radius: 15px;
+$frame-border: 1px solid rgba(255, 255, 255, .03);
