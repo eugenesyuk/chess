@@ -120,12 +120,6 @@ body {
 
     &.selected {
       background-color: $chess-cell-selected-color;
-
-      .piece.white {
-        svg {
-          stroke-width: 0;
-        }
-      }
     }
   
     .available-point {
@@ -150,7 +144,7 @@ body {
         svg {
           fill: $chess-piece-white-color;
           stroke: $chess-piece-black-color;
-          stroke-width: 5px;
+          stroke-width: 15px;
         }
       }
     }
