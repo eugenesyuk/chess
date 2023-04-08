@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import React from "react";
 import { CellComponent } from ".";
 import { Cell } from '../core/Cell';
-import { XNotationMap, YNotationMap } from '../core/Globals';
+import { GameStatus, XNotationMap, YNotationMap } from '../core/Globals';
 
 interface BoardProps {
   board: Board;
@@ -23,6 +23,8 @@ export const BoardComponent: FC<BoardProps> = ({ board, rerenderBoard }) => {
   }
 
   const onCellClicked = (clickedCell: Cell) => {
+    if (clickedCell.board.game.status === GameStatus.Finished) return
+  
     if (selectedCell?.piece && isMoveAllowed(clickedCell)) {
         selectedCell.piece.move(clickedCell)
         return setSelectedCell(null)
