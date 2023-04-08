@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { PieceType } from '../core/Enums'
+import { PieceType } from '../core/Globals'
 import { Piece } from '../core/Piece'
 import { classnames } from '../core/Utils'
 import { BishopSprite, KingSprite, KnightSprite, PawnSprite, QueenSprite, RookSprite } from '../sprites'

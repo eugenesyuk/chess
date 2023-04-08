@@ -1,4 +1,4 @@
-import { Color, PieceType } from '../Enums';
+import { Color, PieceType } from '../Globals';
 import { Piece } from '../Piece';
 import { Cell } from '../Cell';
 

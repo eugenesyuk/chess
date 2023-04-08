@@ -38,3 +38,22 @@ export const YNotationMap = new Map([
   ['2', 6],
   ['1', 7]
 ])
+
+export enum GameEvents {
+  Started = 'Started',
+  Finished = 'Finished',
+  MoveMade = 'MoveMade'
+}
+
+export enum GameOutcome {
+  Checkmate = 'Checkmate',
+  Resignation = 'Resignation',
+  Timeout = 'Timeout',
+  Draw = 'Draw'
+}
+
+export enum GameStatus {
+  Initial = 'Initial',
+  Started = 'Started',
+  Finished = 'Finished'
+}

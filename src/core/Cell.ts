@@ -1,5 +1,5 @@
 import { Board } from './Board';
-import { Color } from './Enums';
+import { Color } from './Globals';
 import { Piece } from './Piece';
 
 export class Cell {

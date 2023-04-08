@@ -3,14 +3,14 @@ import { FC, useEffect, useState } from "react";
 import React from "react";
 import { CellComponent } from ".";
 import { Cell } from '../core/Cell';
-import { XNotationMap, YNotationMap } from '../core/Enums';
+import { XNotationMap, YNotationMap } from '../core/Globals';
 
 interface BoardProps {
   board: Board;
-  setBoard: (board: Board) => void;
+  rerenderBoard: () => void
 }
 
-export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
+export const BoardComponent: FC<BoardProps> = ({ board, rerenderBoard }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
 
   useEffect(() => {
@@ -37,12 +37,7 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
 
   const highlightCells = () => {
     board.highlightCells(selectedCell)
-    updateBoard()
-  }
-
-  const updateBoard = () => {
-    const newBoard = board.getCopyBoard()
-    setBoard(newBoard)
+    rerenderBoard()
   }
  
   return (
@@ -66,19 +61,19 @@ export const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
 const BoardLabels = () => (
   <>
     <div className="labels top">
-      {Array.from(XNotationMap).map(([letter]) => <span>{letter.toUpperCase()}</span>)}
+      {Array.from(XNotationMap).map(([letter]) => <span key={letter}>{letter.toUpperCase()}</span>)}
     </div>
 
     <div className="labels right">
-      {Array.from(YNotationMap).map(([digit]) => <span>{digit.toUpperCase()}</span>)}
+      {Array.from(YNotationMap).map(([digit]) => <span key={digit}>{digit.toUpperCase()}</span>)}
     </div>
 
     <div className="labels bottom">
-      {Array.from(XNotationMap).map(([letter]) => <span>{letter.toUpperCase()}</span>)}
+      {Array.from(XNotationMap).map(([letter]) => <span key={letter}>{letter.toUpperCase()}</span>)}
     </div>
 
     <div className="labels left">
-      {Array.from(YNotationMap).map(([digit]) => <span>{digit.toUpperCase()}</span>)}
+      {Array.from(YNotationMap).map(([digit]) => <span key={digit}>{digit.toUpperCase()}</span>)}
     </div>
   </>
 )

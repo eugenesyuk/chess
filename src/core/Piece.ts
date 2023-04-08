@@ -1,9 +1,11 @@
 import { Cell } from './Cell';
-import { Color, PieceType } from "./Enums";
+import { Color, GameEvents, PieceType } from "./Globals";
+import { EventsObserver } from './EventObserver';
 
 export class Piece {
   color: Color
   cell: Cell
+  previousCell: Cell | null = null
   name: PieceType
   id: number
   captured: boolean = false
@@ -39,7 +41,10 @@ export class Piece {
 
   move(target: Cell) {
     if (this.canMove(target)) {
+      this.previousCell = this.cell
       this.cell.movePiece(target)
+      EventsObserver.emit(GameEvents.MoveMade, this)
+      console.log('Move')
     }
   }
 

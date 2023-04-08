@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import './App.scss'
+import { useCallback, useEffect, useState } from 'react'
 import { BoardComponent } from './components';
-import { Board } from './core/Board';
+import { Game } from './core/Game';
+import './App.scss'
 
 function App() {
-  const [board, setBoard] = useState(new Board())
+  const [, updateState] = useState({});
+  const rerenderBoard = useCallback(() => updateState({}), []);
+
+  const [game, setGame] = useState<Game>()
+
+  const createGame = () => {
+    const game = new Game()
+    setGame(game)
+  }
 
   useEffect(() => {
-    restart()
+    createGame()
   }, [])
 
-  const restart = () => {
-    const newBoard = new Board()
-    newBoard.initCells()
-    newBoard.respawnPieces()
-    setBoard(newBoard)
-  }
+  useEffect(() => {
+    if (game) {
+      game.subscribeEventHandlers()
+      game.start()
+      rerenderBoard()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game])
 
   return (
     <div className="chess">
-      <BoardComponent board={board} setBoard={setBoard} />
+      {game && <BoardComponent board={game.board} rerenderBoard={rerenderBoard} />}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Cell } from './Cell'
-import { Color, XNotationMap, YNotationMap } from './Enums'
+import { Color, XNotationMap, YNotationMap } from './Globals'
+import { Game } from './Game'
 import { Piece } from './Piece'
 import { Bishop } from './pieces/Bishop'
 import { King } from './pieces/King'
@@ -9,10 +10,15 @@ import { Queen } from './pieces/Queen'
 import { Rook } from './pieces/Rook'
 
 export class Board {
+  game: Game
   cells: Cell[][] = []
   whitePieces: Piece[] = []
   blackPieces: Piece[] = []
   pieceId: number = 1
+
+  constructor(game: Game) {
+    this.game = game
+  }
 
   public initCells() {
     for (let y = 0; y < 8; y++) {
@@ -53,12 +59,6 @@ export class Board {
     }
   }
 
-  getCopyBoard(): Board {
-    const board = new Board()
-    board.cells = this.cells
-    return board
-  }
-
   getPieceId(): number {
     const id = this.pieceId
     this.pieceId++
@@ -84,6 +84,12 @@ export class Board {
     this.respawnKnights()
     this.respawnRooks()
     this.respawnPawns()
+  }
+
+  public respawnPreMate() {
+    this.blackPieces.push(new King(Color.Black, this.cellByNotation('A8')))
+    this.whitePieces.push(new Rook(Color.White, this.cellByNotation('B1')))
+    this.whitePieces.push(new Queen(Color.White, this.cellByNotation('F2')))
   }
 
   private respawnKings() {
