@@ -1,5 +1,5 @@
 import { Cell } from './Cell'
-import { Color, GameEvents, XNotationMap, YNotationMap } from './Globals'
+import { Color, GameEvents, PieceType, XNotationMap, YNotationMap } from './Globals'
 import { Game } from './Game'
 import { Piece } from './Piece'
 import { Bishop } from './pieces/Bishop'
@@ -78,7 +78,27 @@ export class Board {
   getActiveEnemyPieces(piece: Piece) {
     return this.getActivePieces(this.getEnemyPieces(piece))
   }
+
+  getSome(predicate: (piece: Piece) => boolean) {
+    return this.pieces.filter(predicate)[0]
+  }
+
+  getCheckedKing() {
+    return this.getSome((piece) => piece.type === PieceType.King && piece.isUnderAttack())
+  }
+
+  getCanCoverCheckedPieces(checkingPiece: Piece, attackedKing: Piece) {
+    const availableCellsInBetween = checkingPiece.getAvailableCellsInBetween(attackedKing.cell)
+    const canCoverChecked = []
   
+    for (const availableCellInBetween of availableCellsInBetween) {
+        const piece = this.getSome((piece) => !piece.is(PieceType.King) && piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(availableCellInBetween))
+        piece && canCoverChecked.push(piece)
+    }
+    
+    return canCoverChecked
+  }
+
   public respawnPieces() {
     this.respawnKings()
     this.respawnQueens()
@@ -92,8 +112,9 @@ export class Board {
 
   public respawnPreMate() {
     this.blackPieces.push(new King(Color.Black, this.cellByNotation('A8')))
+    this.blackPieces.push(new Rook(Color.Black, this.cellByNotation('G6')))
+    this.whitePieces.push(new Queen(Color.White, this.cellByNotation('E2')))
     this.whitePieces.push(new Rook(Color.White, this.cellByNotation('B1')))
-    this.whitePieces.push(new Queen(Color.White, this.cellByNotation('F2')))
   
     this.onPiecesRespawned()
   }

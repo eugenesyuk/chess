@@ -28,7 +28,7 @@ const getPieceSVG = (name: string) => {
 }
 
 export const PieceComponent: FC<PieceProps> = ({ piece }) => {
-  const PieceSprite = getPieceSVG(piece.name)
+  const PieceSprite = getPieceSVG(piece.type)
 
-  return <figure className={classnames('piece', piece.name, piece.color)}>{PieceSprite}</figure>
+  return <figure className={classnames('piece', piece.type, piece.color)}>{PieceSprite}</figure>
 }

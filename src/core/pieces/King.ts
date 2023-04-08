@@ -42,7 +42,7 @@ export class King extends Piece {
   }
 
   isKingMoveAllowed(target: Cell) {
-    return this.isClosePosition(target) && !this.isPotentiallyUnderAttackAt(target)
+    return this.isClosePosition(target) && !this.wouldUnderAttackAt(target)
   }
 
   isClosePosition(target: Cell) {

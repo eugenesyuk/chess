@@ -14,14 +14,15 @@ export class Game {
 
   init() {
     this.board.initCells()
-    this.board.respawnPieces()
-    // this.board.respawnPreMate()
+    // this.board.respawnPieces()
+    this.board.respawnPreMate()
     this.status = GameStatus.Initial
     EventsObserver.emit(GameEvents.Init, this)
   }
 
-  finish() {
+  finish(outcome: GameOutcome) {
     this.status = GameStatus.Finished
+    this.outcome = outcome
     EventsObserver.emit(GameEvents.Finished, this)
   }
 
@@ -29,8 +30,9 @@ export class Game {
     EventsObserver.on(GameEvents.MoveMade, this.onMoveMade)
   }
 
-  onMoveMade = () => {
+  onMoveMade = (movedPiece: Piece) => {
     this.onFirstMove()
+    this.checkOutcome(movedPiece)
   }
 
   onFirstMove() {
@@ -40,5 +42,20 @@ export class Game {
     }
   }
 
-  checkOutcome(movedPiece: Piece) {}
+  checkOutcome(movedPiece: Piece) {
+    const attackedKing = this.board.getCheckedKing()
+  
+    if (attackedKing) {
+      const kingsAvailableCells = attackedKing.getAvailableCells()
+      const checkingPiece = attackedKing.getAttackingPieces()[0]
+      const canAttackCheckingPiece = this.board.getSome((piece) => piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(checkingPiece.cell))
+      const canCoverChecked = this.board.getCanCoverCheckedPieces(checkingPiece, attackedKing)
+
+      console.log({ checkingPiece, canAttackCheckingPiece, canCoverTheWay: canCoverChecked })
+
+      if (!kingsAvailableCells.length && !canAttackCheckingPiece && !canCoverChecked.length) {
+        this.finish(GameOutcome.Checkmate)
+      }
+    }
+  }
 }
