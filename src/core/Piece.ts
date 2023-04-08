@@ -44,7 +44,6 @@ export class Piece {
       this.previousCell = this.cell
       this.cell.movePiece(target)
       EventsObserver.emit(GameEvents.MoveMade, this)
-      console.log('Move')
     }
   }
 
