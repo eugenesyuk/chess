@@ -1,5 +1,5 @@
 import { Cell } from './Cell'
-import { Color, XNotationMap, YNotationMap } from './Globals'
+import { Color, GameEvents, XNotationMap, YNotationMap } from './Globals'
 import { Game } from './Game'
 import { Piece } from './Piece'
 import { Bishop } from './pieces/Bishop'
@@ -8,12 +8,14 @@ import { Knight } from './pieces/Knight'
 import { Pawn } from './pieces/Pawn'
 import { Queen } from './pieces/Queen'
 import { Rook } from './pieces/Rook'
+import { EventsObserver } from './EventObserver'
 
 export class Board {
   game: Game
   cells: Cell[][] = []
   whitePieces: Piece[] = []
   blackPieces: Piece[] = []
+  pieces: Piece[] = []
   pieceId: number = 1
 
   constructor(game: Game) {
@@ -84,12 +86,16 @@ export class Board {
     this.respawnKnights()
     this.respawnRooks()
     this.respawnPawns()
+  
+    this.onPiecesRespawned()
   }
 
   public respawnPreMate() {
     this.blackPieces.push(new King(Color.Black, this.cellByNotation('A8')))
     this.whitePieces.push(new Rook(Color.White, this.cellByNotation('B1')))
     this.whitePieces.push(new Queen(Color.White, this.cellByNotation('F2')))
+  
+    this.onPiecesRespawned()
   }
 
   private respawnKings() {
@@ -128,5 +134,10 @@ export class Board {
       this.blackPieces.push(new Pawn(Color.Black, this.cellByNotation(`${letter}7`)))
       this.whitePieces.push(new Pawn(Color.White, this.cellByNotation(`${letter}2`)))
     }
+  }
+
+  private onPiecesRespawned() {
+    this.pieces = [...this.whitePieces, ...this.blackPieces]
+    EventsObserver.emit(GameEvents.PiecesRespawned, this.pieces)
   }
 }

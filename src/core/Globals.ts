@@ -40,9 +40,11 @@ export const YNotationMap = new Map([
 ])
 
 export enum GameEvents {
+  Init = 'Init',
   Started = 'Started',
   Finished = 'Finished',
-  MoveMade = 'MoveMade'
+  MoveMade = 'MoveMade',
+  PiecesRespawned = 'PiecesRespawned'
 }
 
 export enum GameOutcome {
@@ -57,3 +59,10 @@ export enum GameStatus {
   Started = 'Started',
   Finished = 'Finished'
 }
+
+export enum NodeEnv {
+  Development = 'development',
+  Prodution = 'production'
+}
+
+export const Environment = process.env.NODE_ENV

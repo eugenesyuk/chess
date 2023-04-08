@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     if (game) {
       game.subscribeEventHandlers()
-      game.start()
+      game.init()
       rerenderBoard()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

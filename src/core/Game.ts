@@ -5,20 +5,19 @@ import { Piece } from './Piece'
 
 export class Game {
   outcome: GameOutcome | undefined 
-  status: GameStatus = GameStatus.Initial
+  status: GameStatus | undefined
   board: Board
 
   constructor() {
     this.board = new Board(this)
   }
 
-  start() {
+  init() {
     this.board.initCells()
     // this.board.respawnPieces()
     this.board.respawnPreMate()
-    this.status = GameStatus.Started
-
-    EventsObserver.emit(GameEvents.Started, this)
+    this.status = GameStatus.Initial
+    EventsObserver.emit(GameEvents.Init, this)
   }
 
   finish() {
@@ -28,19 +27,7 @@ export class Game {
 
   subscribeEventHandlers() {
     EventsObserver.on(GameEvents.MoveMade, this.checkOutcome)
-    EventsObserver.on(GameEvents.Started, this.onGameStarted)
-    EventsObserver.on(GameEvents.Finished, this.onGameFinished)
   }
 
-  checkOutcome(movedPiece: Piece) {
-    console.log({ piece: movedPiece })
-  }
-
-  onGameStarted() {
-    console.log('Game started')
-  }
-
-  onGameFinished() {
-    console.log('Game finished')
-  }
+  checkOutcome(movedPiece: Piece) {}
 }

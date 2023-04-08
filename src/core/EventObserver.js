@@ -1,3 +1,5 @@
+import { Environment, NodeEnv } from './Globals'
+
 class EventObserver {
   constructor() {
     this.eventListeners = {}
@@ -20,10 +22,15 @@ class EventObserver {
   }
 
   emit(eventName, args) {
+    Environment === NodeEnv.Development && this.logEvent(eventName, args)
     const event = this.eventListeners[eventName]
     if (!event) return false
-    event && event.forEach((callback) => callback.call(null, args))
+    event.forEach((callback) => callback.call(null, args))
     return true
+  }
+
+  logEvent(eventName, args) {
+    console.log({ eventName, args })
   }
 
   // Attach event listener
