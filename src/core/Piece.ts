@@ -1,5 +1,5 @@
 import { Cell } from './Cell'
-import { Color, GameEvents, PieceType } from "./Globals"
+import { Color, GameEvents, PieceType } from './Globals'
 import { EventsObserver } from './EventObserver'
 
 export class Piece {
@@ -56,9 +56,13 @@ export class Piece {
   }
 
   wouldUnderAttackAt(target: Cell) {
+    const piece = this.cell.piece
+    this.cell.piece = null
     const board = this.cell.board
     const activeEnemyPieces = board.getActiveEnemyPieces(this)
-    return activeEnemyPieces.some(piece => piece.canPotentiallyAttack(target))
+    const wouldUnderAttack = activeEnemyPieces.some(piece => piece.canPotentiallyAttack(target))
+    this.cell.piece = piece
+    return wouldUnderAttack
   }
 
   isUnderAttack() {
