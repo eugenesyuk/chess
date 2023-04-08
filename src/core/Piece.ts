@@ -57,10 +57,24 @@ export class Piece {
 
   wouldUnderAttackAt(target: Cell) {
     const piece = this.cell.piece
+    const targetPiece = target.piece
+
     this.cell.piece = null
+
+    if (targetPiece) {
+      target.piece = null
+      targetPiece.capture()
+    }
+
     const board = this.cell.board
     const activeEnemyPieces = board.getActiveEnemyPieces(this)
     const wouldUnderAttack = activeEnemyPieces.some(piece => piece.canPotentiallyAttack(target))
+    
+    if (targetPiece) {
+      targetPiece.captured = false
+      target.piece = targetPiece
+    }
+  
     this.cell.piece = piece
     return wouldUnderAttack
   }
