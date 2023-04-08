@@ -14,8 +14,8 @@ export class Game {
 
   init() {
     this.board.initCells()
-    // this.board.respawnPieces()
-    this.board.respawnPreMate()
+    this.board.respawnPieces()
+    // this.board.respawnPreMate()
     this.status = GameStatus.Initial
     EventsObserver.emit(GameEvents.Init, this)
   }
@@ -26,7 +26,18 @@ export class Game {
   }
 
   subscribeEventHandlers() {
-    EventsObserver.on(GameEvents.MoveMade, this.checkOutcome)
+    EventsObserver.on(GameEvents.MoveMade, this.onMoveMade)
+  }
+
+  onMoveMade = () => {
+    this.onFirstMove()
+  }
+
+  onFirstMove() {
+    if (this.status === GameStatus.Initial) {
+      this.status = GameStatus.Started
+      EventsObserver.emit(GameEvents.Started, this)
+    }
   }
 
   checkOutcome(movedPiece: Piece) {}
