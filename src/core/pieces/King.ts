@@ -18,7 +18,7 @@ export class King extends Piece {
   }
 
   canPotentiallyAttack(target: Cell): boolean {
-    return this.isClosePosition(target) && !this.wouldUnderAttackAt(target)
+    return this.isKingMoveAllowed(target)
   }
 
   move(target: Cell): void {
