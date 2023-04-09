@@ -10,6 +10,9 @@ export class King extends Piece {
     this.setClosePositions();
   }
 
+  canPotentiallyAttack(target: Cell): boolean {
+    return this.isClosePosition(target)
+  }
 
   move(target: Cell): void {
     super.move(target);
