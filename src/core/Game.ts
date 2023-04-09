@@ -7,6 +7,7 @@ import { Cell } from './Cell'
 type CheckData = {
   isCheck: boolean,
   chekingPiece: Piece | undefined,
+  checkedKing: Piece | undefined,
   canCoverChecked: Piece[]
   canAttackCheckingPiece: Piece[]
   availableCellsToCoverKing : Cell[]
@@ -64,6 +65,7 @@ export class Game {
       const canCoverChecked = this.board.getCanCoverKingPieces(checkingPiece, checkedKing)
 
       this.check.isCheck = true
+      this.check.checkedKing = checkedKing
       this.check.chekingPiece = checkingPiece
       this.check.canAttackCheckingPiece = canAttackCheckingPiece
       this.check.canCoverChecked = canCoverChecked
@@ -84,7 +86,8 @@ export class Game {
       canCoverChecked: [],
       canAttackCheckingPiece: [],
       availableCellsToCoverKing : [],
-      chekingPiece: undefined
+      chekingPiece: undefined,
+      checkedKing: undefined
     }
   }
 }

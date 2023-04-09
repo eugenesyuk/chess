@@ -38,13 +38,13 @@ export class Piece {
   canMoveTo(target: Cell) { return false }
 
   canMoveOnCheck(target: Cell): boolean {
-    const { isCheck, canAttackCheckingPiece, canCoverChecked, chekingPiece, availableCellsToCoverKing: availableCellsInBetween } = this.cell.board.game.check
+    const { isCheck, canAttackCheckingPiece, canCoverChecked, chekingPiece, availableCellsToCoverKing, checkedKing } = this.cell.board.game.check
   
-    if (!isCheck) return true
+    if (!isCheck || this === checkedKing) return true
 
     let allow = false
-  
-    allow = canCoverChecked.includes(this) && availableCellsInBetween.includes(target) ? true : allow
+
+    allow = canCoverChecked.includes(this) && availableCellsToCoverKing.includes(target) ? true : allow
     allow = canAttackCheckingPiece.includes(this) && chekingPiece?.cell === target ? true : allow
 
     return allow
