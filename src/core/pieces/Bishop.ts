@@ -11,6 +11,7 @@ export class Bishop extends Piece {
     let allow = true
     allow = super.canMove(target) ? allow : false
     allow = this.cell.isDiagonalPathFree(target) ? allow : false
+    allow = super.canMoveOnCheck(target) ? allow : false
     return allow
   }
 

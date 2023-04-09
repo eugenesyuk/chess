@@ -15,6 +15,7 @@ export class Pawn extends Piece {
     let allow = true
     allow = super.canMove(target) ? allow : false
     allow = this.isPawmMoveAllowed(target) ? allow : false
+    allow = super.canMoveOnCheck(target) ? allow : false
     return allow
   }
 

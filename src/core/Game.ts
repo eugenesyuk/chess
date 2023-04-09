@@ -2,11 +2,21 @@ import { Board } from './Board'
 import { GameEvents, GameOutcome, GameStatus } from './Globals'
 import { EventsObserver } from './EventObserver'
 import { Piece } from './Piece'
+import { Cell } from './Cell'
+
+type CheckData = {
+  isCheck: boolean,
+  chekingPiece: Piece | undefined,
+  canCoverChecked: Piece[]
+  canAttackCheckingPiece: Piece[]
+  availableCellsToCoverKing : Cell[]
+}
 
 export class Game {
   outcome: GameOutcome | undefined 
   status: GameStatus | undefined
   board: Board
+  check: CheckData = this.checkDefaults()
 
   constructor() {
     this.board = new Board(this)
@@ -14,8 +24,8 @@ export class Game {
 
   init() {
     this.board.initCells()
-    // this.board.respawnPieces()
-    this.board.respawnPreMate()
+    this.board.respawnPieces()
+    // this.board.respawnPreMate()
     this.status = GameStatus.Initial
     EventsObserver.emit(GameEvents.Init, this)
   }
@@ -32,7 +42,7 @@ export class Game {
 
   onMoveMade = (movedPiece: Piece) => {
     this.onFirstMove()
-    this.checkOutcome(movedPiece)
+    this.checkMoveOutcome(movedPiece)
   }
 
   onFirstMove() {
@@ -42,20 +52,37 @@ export class Game {
     }
   }
 
-  checkOutcome(movedPiece: Piece) {
-    const attackedKing = this.board.getCheckedKing()
+  checkMoveOutcome(movedPiece: Piece) {
+    const checkedKing = this.board.getCheckedKing()
   
-    if (attackedKing) {
-      const kingsAvailableCells = attackedKing.getAvailableCells()
-      const checkingPiece = attackedKing.getAttackingPieces()[0]
+    if (checkedKing) {
+      const kingsAvailableCells = checkedKing.getAvailableCells()
+      const checkingPiece = checkedKing.getAttackingPieces()[0]
       const canAttackCheckingPiece = this.board.getSome((piece) => piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(checkingPiece.cell))
-      const canCoverChecked = this.board.getCanCoverCheckedPieces(checkingPiece, attackedKing)
+      const canCoverChecked = this.board.getCanCoverKingPieces(checkingPiece, checkedKing)
 
-      console.log({ checkingPiece, canAttackCheckingPiece, canCoverTheWay: canCoverChecked })
+      this.check.isCheck = true
+      this.check.chekingPiece = checkingPiece
+      this.check.canAttackCheckingPiece = canAttackCheckingPiece
+      this.check.canCoverChecked = canCoverChecked
 
-      if (!kingsAvailableCells.length && !canAttackCheckingPiece && !canCoverChecked.length) {
+      console.log({ kingsAvailableCells, canAttackCheckingPiece, canCoverChecked })
+
+      if (!kingsAvailableCells.length && !canAttackCheckingPiece.length && !canCoverChecked.length) {
         this.finish(GameOutcome.Checkmate)
       }
+    } else {
+      this.check = this.checkDefaults()
+    }
+  }
+
+  checkDefaults(): CheckData {
+    return {
+      isCheck: false,
+      canCoverChecked: [],
+      canAttackCheckingPiece: [],
+      availableCellsToCoverKing : [],
+      chekingPiece: undefined
     }
   }
 }

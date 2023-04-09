@@ -79,22 +79,24 @@ export class Board {
     return this.getActivePieces(this.getEnemyPieces(piece))
   }
 
-  getSome(predicate: (piece: Piece) => boolean) {
-    return this.pieces.filter(predicate)[0]
+  getSome(predicate: (piece: Piece) => boolean): Piece[] {
+    return this.pieces.filter(predicate)
   }
 
-  getCheckedKing() {
-    return this.getSome((piece) => piece.type === PieceType.King && piece.isUnderAttack())
+  getCheckedKing(): Piece {
+    return this.getSome((piece) => piece.type === PieceType.King && piece.isUnderAttack())[0]
   }
 
-  getCanCoverCheckedPieces(checkingPiece: Piece, attackedKing: Piece) {
-    const availableCellsInBetween = checkingPiece.getAvailableCellsInBetween(attackedKing.cell)
-    const canCoverChecked = []
-  
+  getCanCoverKingPieces(checkingPiece: Piece, checkedKing: Piece): Piece[] {  
+    const availableCellsInBetween = checkingPiece.getAvailableCellsInBetween(checkedKing.cell)
+    const canCoverChecked: Piece[] = []
+    
     for (const availableCellInBetween of availableCellsInBetween) {
-        const piece = this.getSome((piece) => !piece.is(PieceType.King) && piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(availableCellInBetween))
-        piece && canCoverChecked.push(piece)
+      const pieces = this.getSome((piece: Piece) => !piece.is(PieceType.King) && piece.isEnemyTo(checkingPiece) && piece.canMove(availableCellInBetween))
+      pieces.length && canCoverChecked.push(...pieces)
     }
+
+    this.game.check.availableCellsToCoverKing = availableCellsInBetween
     
     return canCoverChecked
   }

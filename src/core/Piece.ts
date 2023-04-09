@@ -29,6 +29,19 @@ export class Piece {
     return allow
   }
 
+  canMoveOnCheck(target: Cell): boolean {
+    const { isCheck, canAttackCheckingPiece, canCoverChecked, chekingPiece, availableCellsToCoverKing: availableCellsInBetween } = this.cell.board.game.check
+  
+    if (!isCheck) return true
+
+    let allow = false
+  
+    allow = canCoverChecked.includes(this) && availableCellsInBetween.includes(target) ? true : allow
+    allow = canAttackCheckingPiece.includes(this) && chekingPiece?.cell === target ? true : allow
+
+    return allow
+  }
+
   canPotentiallyAttack(target: Cell): boolean { return false }
 
   isOwn(piece: Piece) {

@@ -11,6 +11,7 @@ export class Rook extends Piece {
     let allow = true
     allow = super.canMove(target) ? allow : false
     allow = this.isRookMoveAllowed(target) ? allow : false
+    allow = super.canMoveOnCheck(target) ? allow : false
     return allow
   }
 
