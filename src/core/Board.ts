@@ -67,6 +67,10 @@ export class Board {
     return id
   }
 
+  getOwnPieces(piece: Piece): Piece[] {
+    return piece.color === Color.White ? this.whitePieces : this.blackPieces
+  }
+
   getEnemyPieces(piece: Piece) {
     return piece.color === Color.Black ? this.whitePieces : this.blackPieces;
   }
@@ -113,49 +117,49 @@ export class Board {
   }
 
   public respawnPreMate() {
-    this.blackPieces.push(new King(Color.Black, this.cellByNotation('A8')))
-    this.blackPieces.push(new Rook(Color.Black, this.cellByNotation('G6')))
-    this.whitePieces.push(new Queen(Color.White, this.cellByNotation('E2')))
-    this.whitePieces.push(new Rook(Color.White, this.cellByNotation('B1')))
+    new King(Color.Black, this.cellByNotation('A8'))
+    new Rook(Color.Black, this.cellByNotation('G6'))
+    new Queen(Color.White, this.cellByNotation('E2'))
+    new Rook(Color.White, this.cellByNotation('B1'))
   
     this.onPiecesRespawned()
   }
 
   private respawnKings() {
-    this.blackPieces.push(new King(Color.Black, this.cellByNotation('E8')))
-    this.whitePieces.push(new King(Color.White, this.cellByNotation('E1')))
+    new King(Color.Black, this.cellByNotation('E8'))
+    new King(Color.White, this.cellByNotation('E1'))
   }
 
   private respawnQueens() {
-    this.blackPieces.push(new Queen(Color.Black, this.cellByNotation('D8')))
-    this.whitePieces.push(new Queen(Color.White, this.cellByNotation('D1')))
+    new Queen(Color.Black, this.cellByNotation('D8'))
+    new Queen(Color.White, this.cellByNotation('D1'))
   }
 
   private respawnBishops() {
-    this.blackPieces.push(new Bishop(Color.Black, this.cellByNotation('C8')))
-    this.blackPieces.push(new Bishop(Color.Black, this.cellByNotation('F8')))
-    this.whitePieces.push(new Bishop(Color.White, this.cellByNotation('C1')))
-    this.whitePieces.push(new Bishop(Color.White, this.cellByNotation('F1')))
+    new Bishop(Color.Black, this.cellByNotation('C8'))
+    new Bishop(Color.Black, this.cellByNotation('F8'))
+    new Bishop(Color.White, this.cellByNotation('C1'))
+    new Bishop(Color.White, this.cellByNotation('F1'))
   }
 
   private respawnKnights() {
-    this.blackPieces.push(new Knight(Color.Black, this.cellByNotation('B8')))
-    this.blackPieces.push(new Knight(Color.Black, this.cellByNotation('G8')))
-    this.whitePieces.push(new Knight(Color.White, this.cellByNotation('B1')))
-    this.whitePieces.push(new Knight(Color.White, this.cellByNotation('G1')))
+    new Knight(Color.Black, this.cellByNotation('B8'))
+    new Knight(Color.Black, this.cellByNotation('G8'))
+    new Knight(Color.White, this.cellByNotation('B1'))
+    new Knight(Color.White, this.cellByNotation('G1'))
   }
 
   private respawnRooks() {
-    this.blackPieces.push(new Rook(Color.Black, this.cellByNotation('A8')))
-    this.blackPieces.push(new Rook(Color.Black, this.cellByNotation('H8')))
-    this.whitePieces.push(new Rook(Color.White, this.cellByNotation('A1')))
-    this.whitePieces.push(new Rook(Color.White, this.cellByNotation('H1')))
+    new Rook(Color.Black, this.cellByNotation('A8'))
+    new Rook(Color.Black, this.cellByNotation('H8'))
+    new Rook(Color.White, this.cellByNotation('A1'))
+    new Rook(Color.White, this.cellByNotation('H1'))
   }
 
   private respawnPawns() {
     for (let [letter] of Array.from(XNotationMap)) {
-      this.blackPieces.push(new Pawn(Color.Black, this.cellByNotation(`${letter}7`)))
-      this.whitePieces.push(new Pawn(Color.White, this.cellByNotation(`${letter}2`)))
+      new Pawn(Color.Black, this.cellByNotation(`${letter}7`))
+      new Pawn(Color.White, this.cellByNotation(`${letter}2`))
     }
   }
 

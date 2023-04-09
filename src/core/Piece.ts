@@ -16,6 +16,9 @@ export class Piece {
       this.cell = cell
       this.cell.piece = this
       this.id = this.cell.board.getPieceId()
+
+      const ownPieces = this.cell.board.getOwnPieces(this)
+      ownPieces.push(this)
   }
 
   canMove(target: Cell): boolean {
