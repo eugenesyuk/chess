@@ -1,5 +1,5 @@
 import { Board } from './Board'
-import { GameEvents, GameOutcome, GameStatus } from './Globals'
+import { Color, GameEvents, GameOutcome, GameStatus } from './Globals'
 import { EventsObserver } from './EventObserver'
 import { Piece } from './Piece'
 import { Cell } from './Cell'
@@ -13,6 +13,7 @@ type CheckData = {
 }
 
 export class Game {
+  winner: Color | undefined
   outcome: GameOutcome | undefined 
   status: GameStatus | undefined
   board: Board
@@ -30,9 +31,10 @@ export class Game {
     EventsObserver.emit(GameEvents.Init, this)
   }
 
-  finish(outcome: GameOutcome) {
+  finish(outcome: GameOutcome, winner: Color | undefined = undefined) {
     this.status = GameStatus.Finished
     this.outcome = outcome
+    this.winner = winner
     EventsObserver.emit(GameEvents.Finished, this)
   }
 
@@ -69,7 +71,7 @@ export class Game {
       console.log({ kingsAvailableCells, canAttackCheckingPiece, canCoverChecked })
 
       if (!kingsAvailableCells.length && !canAttackCheckingPiece.length && !canCoverChecked.length) {
-        this.finish(GameOutcome.Checkmate)
+        this.finish(GameOutcome.Checkmate, movedPiece.color)
       }
     } else {
       this.check = this.checkDefaults()
