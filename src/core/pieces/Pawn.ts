@@ -11,14 +11,6 @@ export class Pawn extends Piece {
     this.moveDirection = color === Color.Black ? MoveDirection.Down : MoveDirection.Up
   }
 
-  canMove(target: Cell) {
-    let allow = true
-    allow = super.canMove(target) ? allow : false
-    allow = this.isPawmMoveAllowed(target) ? allow : false
-    allow = super.canMoveOnCheck(target) ? allow : false
-    return allow
-  }
-
   canPotentiallyAttack(target: Cell) {
     return this.isOneCellForward(target) && this.isDiagonal(target)
   }
@@ -28,7 +20,7 @@ export class Pawn extends Piece {
     this.isFirstMove = false
   }
 
-  isPawmMoveAllowed(target: Cell): boolean {
+  canMoveTo(target: Cell): boolean {
     return this.isEmptyForwardCell(target) || this.isDiagonalEnemy(target)
   }
 

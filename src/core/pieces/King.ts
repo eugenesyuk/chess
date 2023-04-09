@@ -10,17 +10,6 @@ export class King extends Piece {
     this.setClosePositions();
   }
 
-  canMove(target: Cell) {
-    let allow = true;
-    allow = super.canMove(target) ? allow : false;
-    allow = this.isKingMoveAllowed(target) ? allow : false;
-    allow = super.canMoveOnCheck(target) ? allow : false
-    return allow;
-  }
-
-  canPotentiallyAttack(target: Cell): boolean {
-    return this.isKingMoveAllowed(target)
-  }
 
   move(target: Cell): void {
     super.move(target);
@@ -42,7 +31,7 @@ export class King extends Piece {
     ]
   }
 
-  isKingMoveAllowed(target: Cell) {
+  canMoveTo(target: Cell) {
     return this.isClosePosition(target) && !this.wouldUnderAttackAt(target)
   }
 

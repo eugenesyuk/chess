@@ -7,19 +7,7 @@ export class Rook extends Piece {
     super(color, cell, PieceType.Rook)
   }
 
-  canMove(target: Cell) {
-    let allow = true
-    allow = super.canMove(target) ? allow : false
-    allow = this.isRookMoveAllowed(target) ? allow : false
-    allow = super.canMoveOnCheck(target) ? allow : false
-    return allow
-  }
-
-  canPotentiallyAttack(target: Cell) {
-    return this.isRookMoveAllowed(target)
-  }
-
-  isRookMoveAllowed(target: Cell) {
+  canMoveTo(target: Cell) {
     return this.cell.isHorizonatalPathFree(target) || this.cell.isVerticalPathFree(target)
   }
 }

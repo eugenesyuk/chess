@@ -28,9 +28,14 @@ export class Piece {
       allow = this.isOwn(target.piece) ? false : allow
       allow = target.piece.is(PieceType.King) ? false : allow
     }
+
+    allow = this.canMoveTo(target) ? allow : false
+    allow = this.canMoveOnCheck(target) ? allow : false
   
     return allow
   }
+
+  canMoveTo(target: Cell) { return false }
 
   canMoveOnCheck(target: Cell): boolean {
     const { isCheck, canAttackCheckingPiece, canCoverChecked, chekingPiece, availableCellsToCoverKing: availableCellsInBetween } = this.cell.board.game.check
@@ -45,7 +50,9 @@ export class Piece {
     return allow
   }
 
-  canPotentiallyAttack(target: Cell): boolean { return false }
+  canPotentiallyAttack(target: Cell): boolean {
+    return this.canMoveTo(target)
+  }
 
   isOwn(piece: Piece) {
     return piece.color === this.color

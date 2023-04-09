@@ -7,19 +7,7 @@ export class Knight extends Piece {
     super(color, cell, PieceType.Knight)
   }
 
-  canMove(target: Cell) {
-    let allow = true
-    allow = super.canMove(target) ? allow : false
-    allow = this.isKnightMoveAllowed(target) ? allow : false
-    allow = super.canMoveOnCheck(target) ? allow : false
-    return allow
-  }
-
-  canPotentiallyAttack(target: Cell): boolean {
-    return this.isKnightMoveAllowed(target)
-  }
-
-  isKnightMoveAllowed(target: Cell): boolean {
+  canMoveTo(target: Cell): boolean {
     const diffX = Math.abs(this.cell.x - target.x)
     const diffY = Math.abs(this.cell.y - target.y)
 
