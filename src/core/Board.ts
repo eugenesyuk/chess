@@ -119,6 +119,7 @@ export class Board {
   public respawnPreMate() {
     new King(Color.Black, this.cellByNotation('A8'))
     new Rook(Color.Black, this.cellByNotation('G6'))
+    new King(Color.White, this.cellByNotation('H1'))
     new Queen(Color.White, this.cellByNotation('E2'))
     new Rook(Color.White, this.cellByNotation('B1'))
   
