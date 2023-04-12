@@ -1,5 +1,5 @@
 import { Board } from './Board'
-import { Color, GameEvents, GameOutcome, GameStatus } from './Globals'
+import { Color, GameEvents, GameOutcome, GameStatus, PieceType } from './Globals'
 import { EventsObserver } from './EventObserver'
 import { Piece } from './Piece'
 import { Cell } from './Cell'
