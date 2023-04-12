@@ -32,6 +32,7 @@ export class Piece {
     allow = this.isActive ? allow : false
     allow = this.canMoveTo(target) ? allow : false
     allow = this.canMoveOnCheck(target) ? allow : false
+    allow = this.wouldntCauseCheck(target) ? allow : false
   
     return allow
   }
@@ -53,6 +54,31 @@ export class Piece {
 
   canPotentiallyAttack(target: Cell): boolean {
     return this.isActive && this.canMoveTo(target)
+  }
+
+  wouldntCauseCheck(target: Cell) {
+    let result = true
+  
+    const origin = this.cell
+    const originPiece = this
+    const targetPiece = target?.piece
+    
+    const ownKing = origin.board.getSome(piece => piece.isOwn(originPiece) && piece.is(PieceType.King))[0]
+
+    origin.movePiece(target)
+
+    if (ownKing.isUnderAttack()) {
+      result = false
+    }
+
+    target.movePiece(origin)
+  
+    if (targetPiece) {
+      targetPiece.captured = false
+      target.piece = targetPiece
+    }
+    
+    return result
   }
 
   isOwn(piece: Piece) {
