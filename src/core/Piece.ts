@@ -29,6 +29,7 @@ export class Piece {
       allow = target.piece.is(PieceType.King) ? false : allow
     }
 
+    allow = this.isActive ? allow : false
     allow = this.canMoveTo(target) ? allow : false
     allow = this.canMoveOnCheck(target) ? allow : false
   
@@ -51,7 +52,7 @@ export class Piece {
   }
 
   canPotentiallyAttack(target: Cell): boolean {
-    return this.canMoveTo(target)
+    return this.isActive && this.canMoveTo(target)
   }
 
   isOwn(piece: Piece) {
@@ -72,6 +73,10 @@ export class Piece {
 
   capture() {
     this.captured = true
+  }
+
+  get isActive() {
+    return !this.captured
   }
 
   isEnemyTo(target: Piece): boolean {
