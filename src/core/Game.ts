@@ -61,7 +61,7 @@ export class Game {
     if (checkedKing) {
       const kingsAvailableCells = checkedKing.getAvailableCells()
       const checkingPiece = checkedKing.getAttackingPieces()[0]
-      const canAttackCheckingPiece = this.board.getSome((piece) => piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(checkingPiece.cell))
+      const canAttackCheckingPiece = this.board.getSome((piece) => !piece.is(PieceType.King) && piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(checkingPiece.cell))
       const canCoverChecked = this.board.getCanCoverKingPieces(checkingPiece, checkedKing)
 
       this.check.isCheck = true
