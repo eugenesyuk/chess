@@ -150,9 +150,13 @@ body {
     .piece {
       width: 65%;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &.black {
         svg {
+          width: 100%;
           fill: $piece-black--background-color;
         }
       }
@@ -168,7 +172,7 @@ body {
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 540px) and (min-height: 540px) {
   .chess {
     .frame {
       border: 50px solid transparent;
@@ -189,6 +193,38 @@ body {
           padding: 20px 0;
         }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 240px), (max-height: 240px)  {
+  .chess {
+    .frame {
+      padding: 10px;
+
+      .labels {
+        display: none;
+      }
+
+      .board {
+        border-radius: 3px;
+      }
+    }
+  }
+}
+
+@supports not (aspect-ratio: 1 / 1) {
+  .cell {
+    &:before {
+      float: left;
+      padding-top: 100%;
+      content: '';
+    }
+  
+    &:after {
+      display: block;
+      content: '';
+      clear: both;
     }
   }
 }
