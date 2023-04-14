@@ -18,13 +18,16 @@ body {
   align-items: center;
 
   .frame {
+    max-height: 100vw;
+    max-width: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
     padding: $frame-thickness;
-    background: $frame-background;
-    color: $frame-font-color;
-    font-size: $frame-font-size;
-    border-radius: $frame-border-radius;
-    border: $frame-border;
     position: relative;
+    box-sizing: border-box;
+    margin: auto;
 
     .labels {
       position: absolute;
@@ -32,6 +35,11 @@ body {
       text-align: center;
       align-items: center;
       justify-content: center;
+      background: $frame-background;
+      border: $frame-border;
+      border-radius: $frame-border-radius;
+      color: $frame-font-color;
+      font-size: $frame-font-size;
 
       > span {
         flex-grow: 1;
@@ -46,6 +54,7 @@ body {
         top: 0;
         height: $frame-thickness;
         padding: 0 $frame-thickness;
+        border-bottom: 0;
 
         > span {
           transform: scale(-1);
@@ -59,7 +68,8 @@ body {
         width: $frame-thickness;
         flex-direction: column;
         padding: $frame-thickness 0;
-
+        border-left: 0;
+  
         > span {
           transform: scale(-1);
         }
@@ -72,6 +82,7 @@ body {
         width: $frame-thickness;
         flex-direction: column;
         padding: $frame-thickness 0;
+        border-right: 0;
       }
 
       &.bottom {
@@ -80,23 +91,25 @@ body {
         bottom: 0;
         height: $frame-thickness;
         padding: 0 $frame-thickness;
+        border-top: 0;
       }
     }
   }
+  
 
   .board {
-    width: calc(#{$cell-size} * 8);
-    height: calc(#{$cell-size} * 8);
     display: flex;
     flex-wrap: wrap;
     border: $chessboard--border;
     border-radius: $chessboard--border-radius;
     overflow: hidden;
+    width: 100%;
   }
 
   .cell {
-    width: $cell-size;
-    height: $cell-size;
+    aspect-ratio: 1 / 1;
+    width: 12.5%;
+    height: 12.5%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -126,8 +139,7 @@ body {
     }
 
     .piece {
-      width: $cell-size * 0.65;
-      height: $cell-size * 0.65;
+      width: 65%;
       position: relative;
 
       &.black {
@@ -141,6 +153,31 @@ body {
           fill: $piece-white--background-color;
           stroke: $piece-black--background-color;
           stroke-width: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .chess {
+    .frame {
+      border: 50px solid transparent;
+      padding: 20px;
+
+      .labels {
+        font-size: .8rem;
+
+        &.top,
+        &.bottom {
+          height: 20px;
+          padding: 0 20px;
+        }
+
+        &.left,
+        &.right {
+          width: 20px;
+          padding: 20px 0;
         }
       }
     }
