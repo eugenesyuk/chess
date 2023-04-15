@@ -154,9 +154,12 @@ body {
       justify-content: center;
       align-items: center;
 
+      svg {
+        width: 100%;
+      }
+    
       &.black {
         svg {
-          width: 100%;
           fill: $piece-black--background-color;
         }
       }
