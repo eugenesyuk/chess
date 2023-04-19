@@ -17,6 +17,7 @@ export class Board {
   blackPieces: Piece[] = []
   pieces: Piece[] = []
   pieceId: number = 1
+  previousMovedPiece: Piece | null = null
 
   constructor(game: Game) {
     this.game = game

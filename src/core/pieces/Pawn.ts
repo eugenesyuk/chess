@@ -5,10 +5,12 @@ import { Cell } from '../Cell';
 export class Pawn extends Piece {
   isFirstMove: boolean = true
   moveDirection: MoveDirection
+  oppositeMoveDirection: MoveDirection
 
   constructor(color: Color, cell: Cell) {
     super(color, cell, PieceType.Pawn)
     this.moveDirection = color === Color.Black ? MoveDirection.Down : MoveDirection.Up
+    this.oppositeMoveDirection = this.moveDirection === MoveDirection.Down ? MoveDirection.Up : MoveDirection.Down
   }
 
   canPotentiallyAttack(target: Cell) {
@@ -16,12 +18,18 @@ export class Pawn extends Piece {
   }
 
   move(target: Cell): void {
+    const isEnPassant = this.isEnPassant(target)
     super.move(target)
+    if (isEnPassant) {
+      const forwardAdjacentCell = this.getForwardAdjacentCell(target)
+      forwardAdjacentCell.piece?.capture()
+      forwardAdjacentCell.piece = null
+    }
     this.isFirstMove = false
   }
 
   canMoveTo(target: Cell): boolean {
-    return this.isEmptyForwardCell(target) || this.isDiagonalEnemy(target)
+    return this.isEmptyForwardCell(target) || this.isDiagonalEnemy(target) || this.isEnPassant(target)
   }
 
   isEmptyForwardCell(target: Cell) {
@@ -50,5 +58,26 @@ export class Pawn extends Piece {
 
   isDiagonal(target: Cell) {
     return target.x === this.cell.x - 1 || target.x === this.cell.x + 1
+  }
+
+  isEnPassant(target: Cell): boolean {
+    return this.isOneCellForward(target) && this.isDiagonal(target) && this.hasPreviuslyMovedEnemyPawnInFront(target)
+  }
+
+  hasPreviuslyMovedEnemyPawnInFront(target: Cell): boolean {
+    const forwardAdjacentCell = this.getForwardAdjacentCell(target)
+  
+    if (!forwardAdjacentCell.piece) return false
+    
+    const hasEnemyPawn = forwardAdjacentCell.hasEnemyPiece(this.cell) && forwardAdjacentCell.piece.is(PieceType.Pawn)
+    const twoCellsBack = forwardAdjacentCell.board.cell(forwardAdjacentCell.y + 2 * this.moveDirection, forwardAdjacentCell.x)
+    const wasTwoCellsInitialMove = forwardAdjacentCell.piece?.previousCell === twoCellsBack
+    const wasPreviousMove = this.cell.board.previousMovedPiece === forwardAdjacentCell.piece
+
+    return hasEnemyPawn && wasTwoCellsInitialMove && wasPreviousMove
+  }
+
+  getForwardAdjacentCell(target: Cell) {
+    return target.board.cell(target.y + 1 * this.oppositeMoveDirection, target.x)
   }
 }
