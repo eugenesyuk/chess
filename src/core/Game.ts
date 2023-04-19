@@ -46,6 +46,7 @@ export class Game {
   onMoveMade = (movedPiece: Piece) => {
     this.onFirstMove()
     this.checkMoveOutcome(movedPiece)
+    this.board.previousMovedPiece = movedPiece
   }
 
   onFirstMove() {
