@@ -27,6 +27,7 @@ export class Game {
   init() {
     this.board.initCells()
     this.board.respawnPieces()
+    // this.board.respawnCastling()
     // this.board.respawnPreMate()
     this.status = GameStatus.Initial
     EventsObserver.emit(GameEvents.Init, this)
