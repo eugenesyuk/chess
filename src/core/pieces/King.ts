@@ -14,7 +14,7 @@ export class King extends Piece {
     let allow = true
 
     if (target.piece) {
-      allow = this.isOwn(target.piece) && !this.isCastlingPossibleRook(target) ? false : allow
+      allow = this.isOwn(target.piece) && !this.isCastling(target) ? false : allow
       allow = target.piece.is(PieceType.King) ? false : allow
     }
 
