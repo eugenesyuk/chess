@@ -14,7 +14,9 @@ export enum PieceType {
 
 export enum MoveDirection {
   Up = -1,
-  Down = 1
+  Down = 1,
+  Left = -1,
+  Right = 1
 }
 
 export const XNotationMap = new Map([

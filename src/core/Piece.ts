@@ -91,12 +91,14 @@ export class Piece {
   }
 
   move(target: Cell) {
-    if (this.canMove(target)) {
-      this.previousCell = this.cell
-      this.cell.movePiece(target)
-      EventsObserver.emit(GameEvents.MoveMade, this)
-      this.isFirstMove = false
-    }
+    this.canMove(target) && this.performMove(target)
+  }
+
+  performMove(target: Cell) {
+    this.previousCell = this.cell
+    this.cell.movePiece(target)
+    EventsObserver.emit(GameEvents.MoveMade, this)
+    this.isFirstMove = false
   }
 
   capture() {

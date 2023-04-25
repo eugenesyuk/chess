@@ -1,4 +1,4 @@
-import { Color, PieceType } from "../Globals";
+import { Color, MoveDirection, PieceType } from "../Globals";
 import { Piece } from "../Piece";
 import { Cell } from "../Cell";
 
@@ -14,7 +14,7 @@ export class King extends Piece {
     let allow = true
 
     if (target.piece) {
-      allow = this.isOwn(target.piece) && !target.piece.is(PieceType.Rook) ? false : allow
+      allow = this.isOwn(target.piece) && !this.isCastlingPossibleRook(target) ? false : allow
       allow = target.piece.is(PieceType.King) ? false : allow
     }
 
@@ -31,8 +31,21 @@ export class King extends Piece {
   }
 
   move(target: Cell): void {
-    super.move(target);
+    this.isCastling(target) ? this.performCastling(target) : super.move(target)
     this.setClosePositions();
+  }
+
+  performCastling(target: Cell) {
+    const castlingDirection = target.x - this.cell.x > 0 ? MoveDirection.Right : MoveDirection.Left
+    const isDirectionRook = (piece: Piece) => castlingDirection < 0 ? piece.cell.x < this.cell.x : piece.cell.x > this.cell.x
+    const castlingRook = this.cell.board.getSome(piece => this.isFirstMoveOwnRook(piece) && isDirectionRook(piece))[0]
+    const castlingNewKingCell = this.cell.board.cell(this.cell.y, this.cell.x + 2 * castlingDirection)
+    const castlingNewRookCell = this.cell.board.cell(this.cell.y, this.cell.x + 1 * castlingDirection)
+
+    this.performMove(castlingNewKingCell)
+    castlingRook.performMove(castlingNewRookCell)
+
+    console.log({castlingNewKingCell, castlingNewRookCell})
   }
 
   setClosePositions() {
@@ -51,7 +64,7 @@ export class King extends Piece {
   }
 
   canMoveTo(target: Cell) {
-    return (this.isClosePosition(target) || this.isCastlingPossible(target)) && !this.wouldUnderAttackAt(target)
+    return (this.isClosePosition(target) || this.isCastling(target)) && !this.wouldUnderAttackAt(target)
   }
 
   isClosePosition(target: Cell) {
@@ -60,17 +73,14 @@ export class King extends Piece {
     )
   }
 
-  isCastlingPossible(target: Cell): boolean {
-    const isTargetCastlingPossibleMove = this.isTargetCastlingPossibleMove(target)
-
-    return this.isFirstMove && !this.isChecked && isTargetCastlingPossibleMove
+  isCastling(target: Cell): boolean {
+    const isCastlingPossibleRook = this.isCastlingPossibleRook(target)
+    return this.isFirstMove && !this.isChecked && isCastlingPossibleRook
   }
 
-  isTargetCastlingPossibleMove(target: Cell): boolean {
-    const isFirstMoveOwnRook = (piece: Piece) => piece.is(PieceType.Rook) && piece.isOwn(this) && piece.isFirstMove
-  
-    const firstMoveleftRook = this.cell.board.getSome(piece => isFirstMoveOwnRook(piece) && piece.cell.x < this.cell.x)[0]
-    const firstMoveRightRook = this.cell.board.getSome(piece => isFirstMoveOwnRook(piece) && piece.cell.x > this.cell.x)[0]
+  isCastlingPossibleRook(target: Cell): boolean {  
+    const firstMoveleftRook = this.cell.board.getSome(piece => this.isFirstMoveOwnRook(piece) && piece.cell.x < this.cell.x)[0]
+    const firstMoveRightRook = this.cell.board.getSome(piece => this.isFirstMoveOwnRook(piece) && piece.cell.x > this.cell.x)[0]
     
     const isTargetLeftCastlingRookCell = firstMoveleftRook?.cell === target
     const isTargetRighCastlingRookCell = firstMoveRightRook?.cell === target
@@ -91,13 +101,17 @@ export class King extends Piece {
       this.cell.board.cell(this.cell.y, this.cell.x + 2)
     ]
   
-    const isKingLeftPathNotChecked = !kingLeftPathCells.some(cell => this.wouldUnderAttackAt(cell))
-    const isKingRightPathNotChecked = !kingRightPathCells.some(cell => this.wouldUnderAttackAt(cell))
+    const isKingLeftPathNotChecked = !kingLeftPathCells.some(cell => cell && this.wouldUnderAttackAt(cell))
+    const isKingRightPathNotChecked = !kingRightPathCells.some(cell => cell && this.wouldUnderAttackAt(cell))
   
-    const isLeftRookCastlingPossible = isHorizonatalLeftPathFree && isKingLeftPathNotChecked && (isTargetLeftCastlingRookCell || isLeftCastlingCell)
-    const isRightRookCastlingPossible = isHorizonatalRightPathFree && isKingRightPathNotChecked && (isTargetRighCastlingRookCell || isRightCastlingCell)
+    const isLeftRookCastlingPossible = (isTargetLeftCastlingRookCell || isLeftCastlingCell) && isHorizonatalLeftPathFree && isKingLeftPathNotChecked
+    const isRightRookCastlingPossible = (isTargetRighCastlingRookCell || isRightCastlingCell) && isHorizonatalRightPathFree && isKingRightPathNotChecked
 
     return isLeftRookCastlingPossible || isRightRookCastlingPossible
+  }
+
+  isFirstMoveOwnRook = (piece: Piece) => {
+    return piece.is(PieceType.Rook) && piece.isOwn(this) && piece.isFirstMove
   }
 
   get isChecked(): boolean {
