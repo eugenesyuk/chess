@@ -7,6 +7,9 @@
 
 html {
   height: 100%;
+
+  --cell-black-color: #{$cell-black--background-color};
+  --cell-white-color: #{$cell-white--background-color};
 }
 
 body {
@@ -122,25 +125,44 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     &.black {
       background-color: $cell-black--background-color;
+      --cell-color: var(--cell-black-color);
     }
 
     &.white {
       background-color: $cell-white--background-color;
+      --cell-color: var(--cell-white-color);
     }
 
     &.available {
-      background-color: $cell-available-piece--background-color;
-      box-shadow: inset 0 0 1px black;
+      .available-mark {
+        position: absolute;
+        width: 95%;
+        height: 95%;
+        border-radius: 50%;
+        background: $cell-available--background-color;
+        padding: 8%;
+        box-sizing: border-box;
+
+        &:before {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background-color: var(--cell-color);
+        }
+      }
     }
 
     &.selected {
       background-color: $cell-selected--background-color;
     }
   
-    .available-point {
+    .available-mark {
       width: 30%;
       height: 30%;
       border-radius: 50%;

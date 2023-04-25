@@ -127,6 +127,19 @@ export class Board {
     this.onPiecesRespawned()
   }
 
+  public respawnCastling() {
+    this.respawnKings()
+    this.respawnRooks()
+    this.respawnBishops()
+
+    for (let letter of ['a','b', 'c', 'f', 'g', 'h']) {
+      new Pawn(Color.Black, this.cellByNotation(`${letter}7`))
+      new Pawn(Color.White, this.cellByNotation(`${letter}2`))
+    }
+
+    this.onPiecesRespawned()
+  }
+
   private respawnKings() {
     new King(Color.Black, this.cellByNotation('E8'))
     new King(Color.White, this.cellByNotation('E1'))

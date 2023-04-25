@@ -9,6 +9,7 @@ export class Piece {
   previousCell: Cell | null = null
   id: number
   captured: boolean = false
+  isFirstMove: boolean = true
 
   constructor(color: Color, cell: Cell, type: PieceType) {
       this.type = type
@@ -90,11 +91,14 @@ export class Piece {
   }
 
   move(target: Cell) {
-    if (this.canMove(target)) {
-      this.previousCell = this.cell
-      this.cell.movePiece(target)
-      EventsObserver.emit(GameEvents.MoveMade, this)
-    }
+    this.canMove(target) && this.performMove(target)
+  }
+
+  performMove(target: Cell) {
+    this.previousCell = this.cell
+    this.cell.movePiece(target)
+    EventsObserver.emit(GameEvents.MoveMade, this)
+    this.isFirstMove = false
   }
 
   capture() {
