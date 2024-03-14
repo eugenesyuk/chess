@@ -68,7 +68,7 @@ export class Piece {
 
     origin.movePiece(target)
 
-    if (ownKing.isUnderAttack()) {
+    if (ownKing?.isUnderAttack()) {
       result = false
     }
 
