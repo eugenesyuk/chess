@@ -66,11 +66,14 @@ export class Pawn extends Piece {
 
   hasPreviuslyMovedEnemyPawnInFront(target: Cell): boolean {
     const forwardAdjacentCell = this.getForwardAdjacentCell(target)
-  
     if (!forwardAdjacentCell.piece) return false
     
     const hasEnemyPawn = forwardAdjacentCell.hasEnemyPiece(this.cell) && forwardAdjacentCell.piece.is(PieceType.Pawn)
-    const twoCellsBack = forwardAdjacentCell.board.cell(forwardAdjacentCell.y + 2 * this.moveDirection, forwardAdjacentCell.x)
+    const twoCellsBackY = forwardAdjacentCell.y + 2 * this.moveDirection
+
+    if(twoCellsBackY < 0 || twoCellsBackY > 7) return false
+
+    const twoCellsBack = forwardAdjacentCell.board.cell(twoCellsBackY, forwardAdjacentCell.x)
     const wasTwoCellsInitialMove = forwardAdjacentCell.piece?.previousCell === twoCellsBack
     const wasPreviousMove = this.cell.board.previousMovedPiece === forwardAdjacentCell.piece
 
