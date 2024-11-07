@@ -95,6 +95,7 @@ export class Piece {
   }
 
   performMove(target: Cell) {
+    target.isAvailable = false;
     this.previousCell = this.cell
     this.cell.movePiece(target)
     EventsObserver.emit(GameEvents.MoveMade, this)
