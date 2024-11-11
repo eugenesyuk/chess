@@ -1,8 +1,9 @@
 import { Board } from './Board'
-import { Color, GameEvents, GameOutcome, GameStatus, PieceType } from './Globals'
+import { Color, GameEvents, GameOutcome, GameStatus, PieceType, StartPosition } from './Globals'
 import { EventsObserver } from './EventObserver'
 import { Piece } from './Piece'
 import { Cell } from './Cell'
+import { Pawn } from './pieces'
 
 type CheckData = {
   isCheck: boolean,
@@ -19,14 +20,16 @@ export class Game {
   status: GameStatus | undefined
   board: Board
   check: CheckData = this.checkDefaults()
+  promotingPiece: Pawn | null = null
 
   constructor() {
-    this.board = new Board(this)
+    this.board = new Board(this, StartPosition.Top)
   }
 
   init() {
     this.board.initCells()
-    this.board.respawnPieces()
+    // this.board.respawnPieces()
+    this.board.respawnPawnsPromotion()
     // this.board.respawnCastling()
     // this.board.respawnPreMate()
     this.status = GameStatus.Initial
@@ -63,7 +66,7 @@ export class Game {
     if (checkedKing) {
       const kingsAvailableCells = checkedKing.getAvailableCells()
       const checkingPiece = checkedKing.getAttackingPieces()[0]
-      const canAttackCheckingPiece = this.board.getSome((piece) => !piece.is(PieceType.King) && piece.isEnemyTo(checkingPiece) && piece.canPotentiallyAttack(checkingPiece.cell))
+      const canAttackCheckingPiece = this.board.getSome((piece) => !piece.is(PieceType.King) && piece.isEnemyTo(checkingPiece) && checkingPiece.cell instanceof Cell && piece.canPotentiallyAttack(checkingPiece.cell))
       const canCoverChecked = this.board.getCanCoverKingPieces(checkingPiece, checkedKing)
 
       this.check.isCheck = true

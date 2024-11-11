@@ -18,8 +18,12 @@ export class Piece {
       this.cell.piece = this
       this.id = this.cell.board.getPieceId()
 
-      const ownPieces = this.cell.board.getOwnPieces(this)
-      ownPieces.push(this)
+      if(cell.isNotDummy()) this.pushToBoard();
+  }
+
+  pushToBoard() {
+    const ownPieces = this.cell.board.getOwnPieces(this)
+    ownPieces.push(this)
   }
 
   canMove(target: Cell): boolean {
@@ -97,7 +101,7 @@ export class Piece {
   performMove(target: Cell) {
     target.isAvailable = false;
     this.previousCell = this.cell
-    this.cell.movePiece(target)
+    this.cell && this.cell.movePiece(target)
     EventsObserver.emit(GameEvents.MoveMade, this)
     this.isFirstMove = false
   }

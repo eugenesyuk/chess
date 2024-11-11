@@ -3,6 +3,12 @@ import { BoardComponent } from './components'
 import { Game } from './core/Game'
 import './App.scss'
 
+declare global {
+  interface Window {
+   game: Game; // Define the type of your custom property
+  }
+}
+
 function App() {
   const [, updateState] = useState({});
   const rerenderBoard = useCallback(() => updateState({}), []);
@@ -11,6 +17,7 @@ function App() {
 
   const createGame = () => {
     const game = new Game();
+    window.game = game;
     setGame(game);
   };
 

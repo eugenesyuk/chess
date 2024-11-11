@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { Cell } from '../core/Cell'
 import { classnames } from '../core/Utils'
 import { PieceComponent } from '.'
+import { PromotionPopupComponent } from './PromotionPopup'
 
 interface CellProps {
   cell: Cell
@@ -21,13 +22,15 @@ export const CellComponent: FC<CellProps> = ({
         'cell',
         cell.color,
         isSelected ? 'selected' : '',
+        cell.isPromotion ? 'promotion' : '',
         cell.isAvailable && cell.piece ? 'available' : ''
       )}
     >
+      {cell.isPromotion && cell.board.game.promotingPiece && <PromotionPopupComponent cell={cell} piece={cell.board.game.promotingPiece}/>}
       {cell.isAvailable && (
         <div className='available-mark'></div>
       )}
-      {cell.piece ? <PieceComponent piece={cell.piece} /> : <></>}
+      {cell.piece && !cell.isPromotion ? <PieceComponent piece={cell.piece} /> : <></>}
     </div>
   )
 }

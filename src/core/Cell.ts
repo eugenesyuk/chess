@@ -11,6 +11,7 @@ export class Cell {
   readonly color: Color
 
   isAvailable: boolean = false
+  isPromotion: boolean = false
   id: number
 
   constructor(id: number, board: Board, x: number, y: number, color: Color, piece: Piece | null) {
@@ -82,5 +83,9 @@ export class Cell {
 
   hasEnemyPiece(target: Cell): boolean {
     return target.piece != null && this.piece != null && target.piece.isEnemyTo(this.piece)
+  }
+
+  isNotDummy() {
+    return this.x > -1 && this.x < 8 && this.y > -1 && this.y < 8;
   }
 }

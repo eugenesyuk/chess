@@ -1,26 +1,23 @@
 import { Cell } from './Cell'
-import { Color, GameEvents, PieceType, XNotationMap, YNotationMap } from './Globals'
+import { Color, GameEvents, PieceType, StartPosition, XNotationMap, YNotationMap } from './Globals'
 import { Game } from './Game'
 import { Piece } from './Piece'
-import { Bishop } from './pieces/Bishop'
-import { King } from './pieces/King'
-import { Knight } from './pieces/Knight'
-import { Pawn } from './pieces/Pawn'
-import { Queen } from './pieces/Queen'
-import { Rook } from './pieces/Rook'
+import { Bishop, King, Knight, Pawn, Queen, Rook } from './pieces'
 import { EventsObserver } from './EventObserver'
 
 export class Board {
   game: Game
-  cells: Cell[][] = []
+  cells: Cell[][] = [] 
   whitePieces: Piece[] = []
   blackPieces: Piece[] = []
+  whitesStartPosition: StartPosition
   pieces: Piece[] = []
   pieceId: number = 1
   previousMovedPiece: Piece | null = null
 
-  constructor(game: Game) {
+  constructor(game: Game, whitesStartPosition: StartPosition) {
     this.game = game
+    this.whitesStartPosition = whitesStartPosition
   }
 
   public initCells() {
@@ -92,7 +89,9 @@ export class Board {
     return this.getSome((piece) => piece.type === PieceType.King && piece.isUnderAttack())[0]
   }
 
-  getCanCoverKingPieces(checkingPiece: Piece, checkedKing: Piece): Piece[] {  
+  getCanCoverKingPieces(checkingPiece: Piece, checkedKing: Piece): Piece[] { 
+    if(!checkedKing.cell) return []
+
     const availableCellsInBetween = checkingPiece.getAvailableCellsInBetween(checkedKing.cell)
     const canCoverChecked: Piece[] = []
     
@@ -114,6 +113,13 @@ export class Board {
     this.respawnRooks()
     this.respawnPawns()
   
+    this.onPiecesRespawned()
+  }
+
+  public respawnPawnsPromotion() {
+    const pawnsYCoords = [2, 7]
+    if(this.whitesOnTop) pawnsYCoords.reverse()
+    this.respawnPawns(pawnsYCoords[0], pawnsYCoords[1])
     this.onPiecesRespawned()
   }
 
@@ -140,46 +146,58 @@ export class Board {
     this.onPiecesRespawned()
   }
 
+  private get startYForBlacks() {
+    return this.whitesOnTop ? '1' : '8'
+  }
+
+  private get startYForWhites() {
+    return this.whitesOnTop ? '8' : '1'
+  }
+
   private respawnKings() {
-    new King(Color.Black, this.cellByNotation('E8'))
-    new King(Color.White, this.cellByNotation('E1'))
+    new King(Color.Black, this.cellByNotation(`E${this.startYForBlacks}`))
+    new King(Color.White, this.cellByNotation(`E${this.startYForWhites}`))
   }
 
   private respawnQueens() {
-    new Queen(Color.Black, this.cellByNotation('D8'))
-    new Queen(Color.White, this.cellByNotation('D1'))
+    new Queen(Color.Black, this.cellByNotation(`D${this.startYForBlacks}`))
+    new Queen(Color.White, this.cellByNotation(`D${this.startYForWhites}`))
   }
 
   private respawnBishops() {
-    new Bishop(Color.Black, this.cellByNotation('C8'))
-    new Bishop(Color.Black, this.cellByNotation('F8'))
-    new Bishop(Color.White, this.cellByNotation('C1'))
-    new Bishop(Color.White, this.cellByNotation('F1'))
+    new Bishop(Color.Black, this.cellByNotation(`C${this.startYForBlacks}`))
+    new Bishop(Color.Black, this.cellByNotation(`F${this.startYForBlacks}`))
+    new Bishop(Color.White, this.cellByNotation(`C${this.startYForWhites}`))
+    new Bishop(Color.White, this.cellByNotation(`F${this.startYForWhites}`))
   }
 
   private respawnKnights() {
-    new Knight(Color.Black, this.cellByNotation('B8'))
-    new Knight(Color.Black, this.cellByNotation('G8'))
-    new Knight(Color.White, this.cellByNotation('B1'))
-    new Knight(Color.White, this.cellByNotation('G1'))
+    new Knight(Color.Black, this.cellByNotation(`B${this.startYForBlacks}`))
+    new Knight(Color.Black, this.cellByNotation(`G${this.startYForBlacks}`))
+    new Knight(Color.White, this.cellByNotation(`B${this.startYForWhites}`))
+    new Knight(Color.White, this.cellByNotation(`G${this.startYForWhites}`))
   }
 
   private respawnRooks() {
-    new Rook(Color.Black, this.cellByNotation('A8'))
-    new Rook(Color.Black, this.cellByNotation('H8'))
-    new Rook(Color.White, this.cellByNotation('A1'))
-    new Rook(Color.White, this.cellByNotation('H1'))
+    new Rook(Color.Black, this.cellByNotation(`A${this.startYForBlacks}`))
+    new Rook(Color.Black, this.cellByNotation(`H${this.startYForBlacks}`))
+    new Rook(Color.White, this.cellByNotation(`A${this.startYForWhites}`))
+    new Rook(Color.White, this.cellByNotation(`H${this.startYForWhites}`))
   }
 
-  private respawnPawns() {
+  private respawnPawns(blacksY = this.whitesOnTop ? 2 : 7, whitesY = this.whitesOnTop ? 7 : 2) {
     for (let [letter] of Array.from(XNotationMap)) {
-      new Pawn(Color.Black, this.cellByNotation(`${letter}7`))
-      new Pawn(Color.White, this.cellByNotation(`${letter}2`))
+      new Pawn(Color.Black, this.cellByNotation(`${letter}${blacksY}`))
+      new Pawn(Color.White, this.cellByNotation(`${letter}${whitesY}`))
     }
   }
 
   private onPiecesRespawned() {
     this.pieces = [...this.whitePieces, ...this.blackPieces]
     EventsObserver.emit(GameEvents.PiecesRespawned, this.pieces)
+  }
+
+  public get whitesOnTop() {
+    return this.whitesStartPosition === StartPosition.Top
   }
 }

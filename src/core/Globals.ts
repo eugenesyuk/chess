@@ -12,6 +12,11 @@ export enum PieceType {
   Pawn = 'pawn'
 }
 
+export enum StartPosition {
+  Top,
+  Bottom
+}
+
 export enum MoveDirection {
   Up = -1,
   Down = 1,

@@ -9,7 +9,7 @@ export class Pawn extends Piece {
 
   constructor(color: Color, cell: Cell) {
     super(color, cell, PieceType.Pawn)
-    this.moveDirection = color === Color.Black ? MoveDirection.Down : MoveDirection.Up
+    this.moveDirection = this.defineMoveDirection(color, cell)
     this.oppositeMoveDirection = this.moveDirection === MoveDirection.Down ? MoveDirection.Up : MoveDirection.Down
   }
 
@@ -17,14 +17,28 @@ export class Pawn extends Piece {
     return this.isOneCellForward(target) && this.isDiagonal(target)
   }
 
+  defineMoveDirection(color: Color, cell: Cell) {
+    const pawnsMoveDirections = [MoveDirection.Up, MoveDirection.Down]
+    if(cell.board.whitesOnTop) pawnsMoveDirections.reverse()
+    return color === Color.White ? pawnsMoveDirections[0] : pawnsMoveDirections[1]
+  }
+
   move(target: Cell): void {
+    if(this.canPromote(target)) {
+      target.isPromotion = true
+      target.board.game.promotingPiece = this
+      return
+    }
+  
     const isEnPassant = this.isEnPassant(target)
     super.move(target)
+
     if (isEnPassant) {
       const forwardAdjacentCell = this.getForwardAdjacentCell(target)
       forwardAdjacentCell.piece?.capture()
       forwardAdjacentCell.piece = null
     }
+
     this.isFirstMove = false
   }
 
@@ -62,6 +76,12 @@ export class Pawn extends Piece {
 
   isEnPassant(target: Cell): boolean {
     return this.isOneCellForward(target) && this.isDiagonal(target) && this.hasPreviuslyMovedEnemyPawnInFront(target)
+  }
+
+  canPromote(target: Cell): boolean {
+    const promotionYs = [0, 7]
+    if(target.board.whitesOnTop) promotionYs.reverse()
+    return this.color === Color.White ? target.y === promotionYs[0] : target.y === promotionYs[1]
   }
 
   hasPreviuslyMovedEnemyPawnInFront(target: Cell): boolean {
